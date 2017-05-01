@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" >
+    <item
+        android:id="@+id/more"
+        android:icon="@drawable/ic_action_overflow"
+        android:title="@string/menu_overflow"
+        app:showAsAction="ifRoom">
+
+        <menu>
+            <item
+                android:id="@+id/settings"
+                android:title="@string/menu_settings"
+                app:showAsAction="never" >
+            </item>
+
+            <item
+                android:id="@+id/about"
+                android:title="@string/menu_about"
+                app:showAsAction="never" >
+            </item>
+
+        </menu>
+
+    </item>
+</menu>

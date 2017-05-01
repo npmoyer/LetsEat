@@ -1,0 +1,50 @@
+<resources>
+    <string name="app_name">Let\'s Eat</string>
+
+    <!-- Main Activity Strings -->
+    <string name="main_text">Options</string>
+    <string name="option_1">Distance</string>
+    <string name="action_button">Let\'s Eat!</string>
+    <string name="view_map_button">View Map</string>
+    <string name="options_button">Choose Options</string>
+    <string name="result_prompt">You should eat at:</string>
+    <string name="details_button">Details</string>
+    <string name="show_on_map_button">Show on Map</string>
+    <string name="directions_button">Directions</string>
+
+    <!-- Settings Activity Strings -->
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Options Activity Strings -->
+    <string name="title_activity_options">Options</string>
+    <string name="options_apply">Apply</string>
+    <string name="options_reset">Reset</string>
+    <string-array name="distance_array">
+        <item>0.5 Miles</item>
+        <item>1 Mile</item>
+        <item>2 Miles</item>
+        <item>3 Miles</item>
+        <item>4 Miles</item>
+        <item>5 Miles</item>
+        <item>10 Miles</item>
+    </string-array>
+    <string name="option_2">Category</string>
+    <string-array name="category_array">
+        <item>Any</item>
+        <item>Pizza</item>
+        <item>Mexican</item>
+        <item>Italian</item>
+        <item>Chinese</item>
+        <item>Sandwich</item>
+    </string-array>
+
+    <!-- Maps Activity Strings -->
+    <string name="title_activity_maps">Map</string>
+
+    <!-- Menu Strings -->
+    <string name="menu_overflow">More</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_about">About</string>
+    <string name="title_activity_about">About</string>
+
+</resources>
