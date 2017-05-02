@@ -22,14 +22,53 @@
         android:layout_height="wrap_content"
         android:orientation="vertical" >
 
-        <TextView
-            android:id="@+id/textViewMain"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="15dp"
-            android:textSize="25sp"
-            android:text="@string/main_text" />
+            android:orientation="horizontal"
+            android:layout_marginTop="15dp">
+
+            <TextView
+                android:id="@+id/distance"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:text="@string/options_distance"
+                android:textSize="20sp"
+                android:layout_margin="10dp"
+                android:layout_weight=".25"/>
+
+            <Spinner
+                android:id="@+id/distanceSpinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:spinnerMode="dialog" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/category"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:text="@string/options_category"
+                android:textSize="20sp"
+                android:layout_margin="10dp"
+                android:layout_weight=".25"/>
+
+            <Spinner
+                android:id="@+id/categorySpinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:spinnerMode="dialog"/>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -37,21 +76,21 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/text_option_1"
-                android:layout_width="wrap_content"
+                android:id="@+id/rating"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:text="@string/option_1"
+                android:text="@string/options_rating"
                 android:textSize="20sp"
-                android:layout_margin="10dp"/>
+                android:layout_margin="10dp"
+                android:layout_weight=".25"/>
 
             <Spinner
-                android:id="@+id/spinner_option_1"
+                android:id="@+id/ratingSpinner"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
                 android:spinnerMode="dialog"/>
-
         </LinearLayout>
 
         <LinearLayout
@@ -60,22 +99,22 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/text_option_2"
-                android:layout_width="wrap_content"
+                android:id="@+id/price"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:text="@string/option_2"
+                android:text="@string/options_price"
                 android:textSize="20sp"
-                android:layout_margin="10dp"/>
+                android:layout_margin="10dp"
+                android:layout_weight=".25"/>
 
             <Spinner
-                android:id="@+id/spinner_option_2"
+                android:id="@+id/priceSpinner"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
                 android:spinnerMode="dialog"/>
         </LinearLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -89,7 +128,8 @@
                 android:layout_margin="15dp"
                 android:layout_weight=".5"
                 android:onClick="viewMap"
-                android:text="@string/options_reset" />
+                android:text="@string/options_reset"
+                android:textAllCaps="false"/>
 
             <Button
                 android:id="@+id/optons_button"
@@ -99,7 +139,8 @@
                 android:layout_margin="15dp"
                 android:text="@string/options_apply"
                 android:onClick="apply"
-                android:layout_weight=".5"/>
+                android:layout_weight=".5"
+                android:textAllCaps="false" />
         </LinearLayout>
 
 

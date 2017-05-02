@@ -16,24 +16,44 @@ public class OptionsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_options);
 
         // Set up distance spinner
-        Spinner spinner1 = (Spinner) findViewById(R.id.spinner_option_1);
+        Spinner spinner1 = (Spinner) findViewById(R.id.distanceSpinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this,
-                R.array.distance_array, android.R.layout.simple_spinner_item);
+                R.array.options_distance_array, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
         adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         spinner1.setAdapter(adapter1);
 
         // Set up category spinner
-        Spinner spinner2 = (Spinner) findViewById(R.id.spinner_option_2);
+        Spinner spinner2 = (Spinner) findViewById(R.id.categorySpinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this,
-                R.array.category_array, android.R.layout.simple_spinner_item);
+                R.array.options_category_array, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         spinner2.setAdapter(adapter2);
+
+        // Set up distance spinner
+        Spinner spinner3 = (Spinner) findViewById(R.id.ratingSpinner);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter3 = ArrayAdapter.createFromResource(this,
+                R.array.options_rating_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        spinner3.setAdapter(adapter3);
+
+        // Set up category spinner
+        Spinner spinner4 = (Spinner) findViewById(R.id.priceSpinner);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter4 = ArrayAdapter.createFromResource(this,
+                R.array.options_price_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        spinner4.setAdapter(adapter4);
 
         // Set uo the app bar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
