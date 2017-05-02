@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.moyer.nicholas.letseat">
+    package="com.labs.nipamo.letseat">
 
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
@@ -19,7 +19,7 @@
         android:theme="@style/Theme.AppCompat.NoActionBar">
 
         <!-- Main Activity -->
-        <activity android:name=".MainActivity">
+        <activity android:name="com.labs.nipamo.letseat.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -28,38 +28,38 @@
 
         <!-- Maps Activity -->
         <activity
-            android:name=".MapsActivity"
+            android:name="com.labs.nipamo.letseat.MapsActivity"
             android:label="@string/title_activity_maps">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.moyer.nicholas.letseat.MainActivity" />
+                android:value="com.labs.nipamo.letseat.MainActivity" />
         </activity>
 
         <!-- Options Activity -->
         <activity
-            android:name=".OptionsActivity"
+            android:name="com.labs.nipamo.letseat.OptionsActivity"
             android:label="@string/title_activity_options" >
             <meta-data
               android:name="android.support.PARENT_ACTIVITY"
-              android:value="com.moyer.nicholas.letseat.MainActivity" />
+              android:value="com.labs.nipamo.letseat.MainActivity" />
         </activity>
 
         <!-- Settings Activity -->
         <activity
-            android:name=".SettingsActivity"
+            android:name="com.labs.nipamo.letseat.SettingsActivity"
             android:label="@string/title_activity_settings" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.moyer.nicholas.letseat.MainActivity" />
+                android:value="com.labs.nipamo.letseat.MainActivity" />
         </activity>
 
         <!-- About Activity -->
         <activity
-            android:name=".AboutActivity"
+            android:name="com.labs.nipamo.letseat.AboutActivity"
             android:label="@string/title_activity_about" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.moyer.nicholas.letseat.MainActivity" />
+                android:value="com.labs.nipamo.letseat.MainActivity" />
         </activity>
 
         <!-- Maps API -->

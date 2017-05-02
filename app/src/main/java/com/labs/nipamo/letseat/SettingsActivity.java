@@ -1,4 +1,4 @@
-package com.moyer.nicholas.letseat;
+package com.labs.nipamo.letseat;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -18,6 +18,7 @@ public class SettingsActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // Add the back button
         ActionBar ab = getSupportActionBar();
         if (ab != null) {
             ab.setDisplayHomeAsUpEnabled(true);

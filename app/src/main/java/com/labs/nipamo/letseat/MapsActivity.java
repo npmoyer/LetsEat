@@ -1,4 +1,4 @@
-package com.moyer.nicholas.letseat;
+package com.labs.nipamo.letseat;
 
 import android.location.Criteria;
 import android.location.Location;

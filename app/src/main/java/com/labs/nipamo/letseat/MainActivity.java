@@ -1,4 +1,4 @@
-package com.moyer.nicholas.letseat;
+package com.labs.nipamo.letseat;
 
 import android.Manifest;
 import android.content.Intent;
