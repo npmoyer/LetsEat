@@ -94,5 +94,6 @@ public class MainActivity extends AppCompatActivity {
     public void letsEat(View view){
         TextView result = (TextView) findViewById(R.id.result);
         result.setText("It worked!");
+        result.setVisibility(View.VISIBLE);
     }
 }

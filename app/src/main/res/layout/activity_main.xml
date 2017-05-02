@@ -30,7 +30,8 @@
             android:layout_margin="15dp"
             android:layout_weight=".5"
             android:onClick="viewMap"
-            android:text="@string/view_map_button" />
+            android:text="@string/view_map_button"
+            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/optons_button"
@@ -40,7 +41,8 @@
             android:layout_margin="15dp"
             android:text="@string/options_button"
             android:onClick="chooseOptions"
-            android:layout_weight=".5"/>
+            android:layout_weight=".5"
+            android:textAllCaps="false" />
     </LinearLayout>
 
     <Button
@@ -64,13 +66,15 @@
             android:textSize="30sp"
             android:text="@string/result_prompt"/>
 
-        <EditText
+        <TextView
             android:id="@+id/result"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:layout_margin="20dp"
-            android:inputType="textShortMessage" />
+            android:layout_gravity="center"
+            android:textSize="30sp"
+            android:visibility="invisible"/>
 
         <Button
             android:id="@+id/details_button"
@@ -78,7 +82,8 @@
             android:layout_height="50dp"
             android:layout_margin="15dp"
             android:layout_gravity="center"
-            android:text="@string/details_button" />
+            android:text="@string/details_button"
+            android:textAllCaps="false"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -93,7 +98,8 @@
                 android:layout_margin="15dp"
                 android:layout_weight=".5"
                 android:onClick="viewMap"
-                android:text="@string/show_on_map_button" />
+                android:text="@string/show_on_map_button"
+                android:textAllCaps="false" />
 
             <Button
                 android:id="@+id/sirection_button"
@@ -102,7 +108,8 @@
                 android:layout_gravity="center"
                 android:layout_margin="15dp"
                 android:text="@string/directions_button"
-                android:layout_weight=".5"/>
+                android:layout_weight=".5"
+                android:textAllCaps="false" />
         </LinearLayout>
 
     </LinearLayout>

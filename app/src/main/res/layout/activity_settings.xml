@@ -20,9 +20,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Location Settings"
+        android:text="@string/settings_location"
         android:layout_gravity="center"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:layout_margin="25dp"
         />
 
@@ -35,20 +35,21 @@
         android:id="@+id/currentLocation"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Current Location"
+        android:text="@string/settings_current_location"
         android:layout_gravity="center"
         android:layout_margin="15dp"
-        android:layout_weight=".5"/>
+        android:layout_weight=".5"
+        android:onClick="setCurrent" />
 
     <RadioButton
         android:id="@+id/customLocation"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Custom Location"
+        android:text="@string/settings_custom_location"
         android:layout_gravity="center"
         android:layout_margin="15dp"
-        android:layout_weight=".5"/>
-
+        android:layout_weight=".5"
+        android:onClick="setCustom" />
     </LinearLayout>
 
     <LinearLayout
@@ -57,19 +58,33 @@
         android:orientation="horizontal" >
 
         <TextView
-            android:id="@+id/zipcodePrompt"
+            android:id="@+id/zipcode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Enter Zipcode: "
+            android:text="@string/settings_zipcode"
             android:layout_margin="10dp"
-            android:textSize="20sp"/>
+            android:layout_gravity="center"
+            android:textSize="20sp"
+            android:visibility="invisible"/>
 
         <EditText
-            android:id="@+id/editText"
-            android:layout_width="100dp"
+            android:id="@+id/zipcodeText"
+            android:layout_width="75dp"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="number" />
+            android:inputType="number"
+            android:visibility="invisible" />
+
+        <Button
+            android:id="@+id/applyButton"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:text="@string/settings_apply"
+            android:textAllCaps="false"
+            android:layout_marginLeft="25dp"
+            android:layout_marginStart="25dp"
+            android:visibility="invisible"/>
+
     </LinearLayout>
 
 </LinearLayout>
