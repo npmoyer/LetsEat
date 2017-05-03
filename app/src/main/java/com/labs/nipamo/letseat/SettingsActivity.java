@@ -17,6 +17,8 @@ import static com.labs.nipamo.letseat.R.menu.main;
 
 public class SettingsActivity extends AppCompatActivity {
 
+    public String ZIPCODE;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,5 +94,16 @@ public class SettingsActivity extends AppCompatActivity {
         zipCode.setVisibility(View.VISIBLE);
         zipCodeText.setVisibility(View.VISIBLE);
         apply.setVisibility(View.VISIBLE);
+
+        // Set variables so other activities know use custom location
+        ((FindLocation) getApplicationContext()).setCurrent(false);
+        ((FindLocation) getApplicationContext()).setCustom(true);
+    }
+
+    public void applyZip(View view){
+        EditText zipCodeText = (EditText) findViewById(R.id.zipcodeText);
+
+         ZIPCODE = zipCodeText.getText().toString();
+        ((FindLocation) getApplicationContext()).setZip(ZIPCODE);
     }
 }
