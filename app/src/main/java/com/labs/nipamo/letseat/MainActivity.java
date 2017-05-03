@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
     /* Called when the user taps the "Show Map" button */
     public void viewMap(View view){
-
+        // Check if the user selected a location setting
        if (((FindLocation) getApplicationContext()).getCurrent() ||
                ((FindLocation) getApplicationContext()).getCustom()){
             // Start the Maps Activity

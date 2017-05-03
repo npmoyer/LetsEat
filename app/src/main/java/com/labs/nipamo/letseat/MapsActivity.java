@@ -1,8 +1,5 @@
 package com.labs.nipamo.letseat;
 
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
@@ -17,7 +14,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private LatLng myPosition;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,36 +37,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        // Set up local variables
         mMap = googleMap;
+        double latitude;
+        double longitude;
 
         // Enabling MyLocation Layer of Google Map
         mMap.setMyLocationEnabled(true);
 
-        // Getting LocationManager object from System Service LOCATION_SERVICE
-        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        // Use FindLocation to get the latitude and longitude
+        ((FindLocation) getApplicationContext()).setLocation();
+        latitude = ((FindLocation) getApplicationContext()).getLatitude();
+        longitude = ((FindLocation) getApplicationContext()).getLongitude();
 
-        // Creating a criteria object to retrieve provider
-        Criteria criteria = new Criteria();
-
-        // Getting the name of the best provider
-        String provider = locationManager.getBestProvider(criteria, true);
-
-        // Getting Current Location
-        Location location = locationManager.getLastKnownLocation(provider);
-
-        if (location != null) {
-            // Getting latitude of the current location
-            double latitude = location.getLatitude();
-
-            // Getting longitude of the current location
-            double longitude = location.getLongitude();
-
-            // Add a marker in to the user's current location and move the camera
-            myPosition = new LatLng(latitude, longitude);
-
-            googleMap.addMarker(new MarkerOptions().position(myPosition).title("Current Location"));
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(myPosition));
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(15.0f), 3000, null);
-        }
+        // Add a marker in to the user's current location and move the camera
+        myPosition = new LatLng(latitude, longitude);
+        googleMap.addMarker(new MarkerOptions().position(myPosition).title("Current Location"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(myPosition));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(15.0f), 3000, null);
     }
 }
