@@ -11,6 +11,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import static com.labs.nipamo.letseat.R.menu.main;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -33,21 +36,49 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main, menu);
+        inflater.inflate(main, menu);
         return true;
     }
 
     /* Called when the user presses the "Current Location" radio button */
     public void setCurrent(View view){
+        // Set local variables
         RadioButton custom = (RadioButton) findViewById(R.id.customLocation);
         TextView zipCode = (TextView) findViewById(R.id.zipcode);
         EditText zipCodeText = (EditText) findViewById(R.id.zipcodeText);
         Button apply = (Button) findViewById(R.id.applyButton);
 
+        // Hide custom location stuff
         custom.setChecked(false);
         zipCode.setVisibility(View.INVISIBLE);
         zipCodeText.setVisibility(View.INVISIBLE);
         apply.setVisibility(View.INVISIBLE);
+
+        FindLocation loc = new FindLocation();
+        boolean done = false;
+
+        //Check for permission
+        if (!loc.checkForPermission(SettingsActivity.this)) {
+            // Permission is not granted so request it
+            while (!done) {
+                done = loc.promptForPermission(SettingsActivity.this);
+            }
+            // Check if user pressed Deny
+            if (!loc.checkForPermission(SettingsActivity.this)){
+                // Permission is denied :(
+                Toast toast = Toast.makeText(SettingsActivity.this,
+                        "Allow permissions to use current location!", Toast.LENGTH_LONG);
+                toast.show();
+            }else {
+                // Set variables so other activities know use current location
+                ((FindLocation) getApplicationContext()).setCurrent(true);
+                ((FindLocation) getApplicationContext()).setCustom(false);
+            }
+        }else{
+            // Set variables so other activities know use current location
+            ((FindLocation) getApplicationContext()).setCurrent(true);
+            ((FindLocation) getApplicationContext()).setCustom(false);
+        }
     }
 
     /* Called when the user presses the "Custom Location" radio button */

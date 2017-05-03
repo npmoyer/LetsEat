@@ -1,11 +1,7 @@
 package com.labs.nipamo.letseat;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -16,7 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    int MY_PERMISSIONS_ACCESS_FINE_LOCATION = 100;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,32 +52,17 @@ public class MainActivity extends AppCompatActivity {
 
     /* Called when the user taps the "Show Map" button */
     public void viewMap(View view){
-        // Check if location permission is granted
-        if (ContextCompat.checkSelfPermission(MainActivity.this,
-                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // Permission is not granted so request it
-            ActivityCompat.requestPermissions(MainActivity.this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    MY_PERMISSIONS_ACCESS_FINE_LOCATION);
-            // Check if user pressed Deny
-            if (ContextCompat.checkSelfPermission(MainActivity.this,
-                    Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // Permission is denied :(
-                // User does not get to enjoy the map
-                // User should probably just uninstall the app
-                Toast toast = Toast.makeText(MainActivity.this,
-                        "Allow permissions to view the map!", Toast.LENGTH_LONG);
-                toast.show();
-            }
-        }
 
-        // Check again is location permission is granted
-        if (ContextCompat.checkSelfPermission(MainActivity.this,
-                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+       if (((FindLocation) getApplicationContext()).getCurrent() ||
+               ((FindLocation) getApplicationContext()).getCustom()){
             // Start the Maps Activity
             Intent intent = new Intent(this, MapsActivity.class);
             startActivity(intent);
-        }
+        } else{
+           Toast toast = Toast.makeText(MainActivity.this,
+                   "Select a location setting in the Settings screen", Toast.LENGTH_LONG);
+           toast.show();
+       }
     }
 
     /* Called when the user taps the "Choose Options" button */
