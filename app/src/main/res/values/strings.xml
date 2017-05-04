@@ -51,6 +51,7 @@
         <item>$$$</item>
         <item>$$$$</item>
     </string-array>
+
     <!-- Settings Activity Strings -->
     <string name="title_activity_settings">Settings</string>
     <string name="settings_location">Set Location</string>
