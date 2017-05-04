@@ -65,8 +65,8 @@
             android:textSize="20sp"
             android:visibility="invisible"
             android:layout_gravity="center"
-            android:layout_marginLeft="200dp"
-            android:layout_marginStart="200dp"/>
+            android:layout_marginLeft="180dp"
+            android:layout_marginStart="180dp"/>
 
         <EditText
             android:id="@+id/zipcodeText"

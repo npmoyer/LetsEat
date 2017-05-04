@@ -1,5 +1,6 @@
 package com.labs.nipamo.letseat;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -107,5 +108,9 @@ public class SettingsActivity extends AppCompatActivity {
             ZIPCODE = zipCodeText.getText().toString();
             ((FindLocation) getApplicationContext()).setZip(ZIPCODE);
         }
+
+        // Go back to the Main Activity
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 }
