@@ -7,7 +7,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -48,13 +47,11 @@ public class SettingsActivity extends AppCompatActivity {
         RadioButton custom = (RadioButton) findViewById(R.id.customLocation);
         TextView zipCode = (TextView) findViewById(R.id.zipcode);
         EditText zipCodeText = (EditText) findViewById(R.id.zipcodeText);
-        Button apply = (Button) findViewById(R.id.applyButton);
 
         // Hide custom location stuff
         custom.setChecked(false);
         zipCode.setVisibility(View.INVISIBLE);
         zipCodeText.setVisibility(View.INVISIBLE);
-        apply.setVisibility(View.INVISIBLE);
 
         FindLocation loc = new FindLocation();
         boolean done = false;
@@ -89,13 +86,11 @@ public class SettingsActivity extends AppCompatActivity {
         RadioButton current = (RadioButton) findViewById(R.id.currentLocation);
         TextView zipCode = (TextView) findViewById(R.id.zipcode);
         EditText zipCodeText = (EditText) findViewById(R.id.zipcodeText);
-        Button apply = (Button) findViewById(R.id.applyButton);
 
         // Hide current location stuff
         current.setChecked(false);
         zipCode.setVisibility(View.VISIBLE);
         zipCodeText.setVisibility(View.VISIBLE);
-        apply.setVisibility(View.VISIBLE);
 
         // Set variables so other activities know use custom location
         ((FindLocation) getApplicationContext()).setCurrent(false);
