@@ -27,7 +27,7 @@ public final class FindPlacesConfig {
     public static final String VICINITY = "vicinity";
     public static final String PLACE_NAME = "place_name";
 
-    public static final String APIKEY = "AIzaSyBA_MjwNu5WQ4NynIwHmoE8F4DCS40sH-c";
+    public static final String APIKEY = "AIzaSyAZMaNIoaHaoakcShaJ8rfB8XkvcMK9CSc";
     public static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     public static final int PROXIMITY_RADIUS = 5000;
     // The minimum distance to change Updates in meters
