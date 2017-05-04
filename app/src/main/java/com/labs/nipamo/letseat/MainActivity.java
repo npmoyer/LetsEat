@@ -12,7 +12,22 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Random;
+
+import static com.labs.nipamo.letseat.FindPlacesConfig.*;
+
 public class MainActivity extends AppCompatActivity {
+
+    private String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,12 +93,22 @@ public class MainActivity extends AppCompatActivity {
         Button details = (Button) findViewById(R.id.details_button);
         Button onMap =  (Button) findViewById(R.id.show_on_map_button);
         Button directions = (Button) findViewById(R.id.directions_button);
+        double latitude;
+        double longitude;
 
         // Check if the user selected a location setting
         if (((FindLocation) getApplicationContext()).getCurrent() ||
                 ((FindLocation) getApplicationContext()).getCustom()){
+            // Use FindLocation to get the latitude and longitude
+            ((FindLocation) getApplicationContext()).setLocation();
+            latitude = ((FindLocation) getApplicationContext()).getLatitude();
+            longitude = ((FindLocation) getApplicationContext()).getLongitude();
+            loadNearbyPlaces(latitude, longitude);
+
             // Display the result
-            result.setText("It worked!");
+            if (this.name != null){
+                result.setText(this.name);
+            }
             result.setVisibility(View.VISIBLE);
             details.setVisibility(View.VISIBLE);
             onMap.setVisibility(View.VISIBLE);
@@ -100,5 +125,57 @@ public class MainActivity extends AppCompatActivity {
         Toast toast = Toast.makeText(MainActivity.this,
                 "Sorry, this button doesn't work yet!", Toast.LENGTH_LONG);
         toast.show();
+    }
+
+    private void loadNearbyPlaces(double latitude, double longitude){
+        String type = "restaurant";
+
+        StringBuilder googlePlacesUrl =
+                new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
+        googlePlacesUrl.append("location=").append(latitude).append(",").append(longitude);
+        googlePlacesUrl.append("&radius=").append(PROXIMITY_RADIUS);
+        googlePlacesUrl.append("&types=").append(type);
+        googlePlacesUrl.append("&sensor=true");
+        googlePlacesUrl.append("&key=" + APIKEY);
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
+                googlePlacesUrl.toString(), (String)null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject result) {
+                       parseLocationResult(result);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                    }
+                });
+        FindPlaces.getInstance().addToRequestQueue(request);
+    }
+
+    private void parseLocationResult(JSONObject result) {
+
+        String placeName;
+        Random rand = new Random();
+
+        try {
+            JSONArray jsonArray = result.getJSONArray("results");
+
+            if (result.getString(STATUS).equalsIgnoreCase(OK)) {
+                int i = rand.nextInt(jsonArray.length() - 1);
+                JSONObject place = jsonArray.getJSONObject(i);
+                if (!place.isNull(NAME)) {
+                    placeName = place.getString(NAME);
+                    this.name = placeName;
+                }
+            } else if (result.getString(STATUS).equalsIgnoreCase(ZERO_RESULTS)) {
+                Toast.makeText(getBaseContext(), "No Restaurants found in 5KM radius!",
+                        Toast.LENGTH_LONG).show();
+            }
+        } catch (JSONException e) {
+            Toast.makeText(getBaseContext(), "Parsing error",
+                    Toast.LENGTH_LONG).show();
+        }
     }
 }
