@@ -163,6 +163,7 @@ public class MainActivity extends AppCompatActivity {
             JSONArray jsonArray = result.getJSONArray("results");
 
             if (result.getString(STATUS).equalsIgnoreCase(OK)) {
+                // Pick a random place
                 int i = rand.nextInt(jsonArray.length() - 1);
                 JSONObject place = jsonArray.getJSONObject(i);
                 if (!place.isNull(NAME)) {
