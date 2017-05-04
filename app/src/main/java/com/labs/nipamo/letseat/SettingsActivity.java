@@ -85,11 +85,13 @@ public class SettingsActivity extends AppCompatActivity {
 
     /* Called when the user presses the "Custom Location" radio button */
     public void setCustom(View view){
+        // Set local variables
         RadioButton current = (RadioButton) findViewById(R.id.currentLocation);
         TextView zipCode = (TextView) findViewById(R.id.zipcode);
         EditText zipCodeText = (EditText) findViewById(R.id.zipcodeText);
         Button apply = (Button) findViewById(R.id.applyButton);
 
+        // Hide current location stuff
         current.setChecked(false);
         zipCode.setVisibility(View.VISIBLE);
         zipCodeText.setVisibility(View.VISIBLE);
@@ -100,10 +102,15 @@ public class SettingsActivity extends AppCompatActivity {
         ((FindLocation) getApplicationContext()).setCustom(true);
     }
 
-    public void applyZip(View view){
+    /* Called when the user pressed the "Apply" button */
+    public void apply(View view){
+        // Set local variables
         EditText zipCodeText = (EditText) findViewById(R.id.zipcodeText);
 
-         ZIPCODE = zipCodeText.getText().toString();
-        ((FindLocation) getApplicationContext()).setZip(ZIPCODE);
+        // Check which option to apply
+        if (((FindLocation) getApplicationContext()).getCustom()){
+            ZIPCODE = zipCodeText.getText().toString();
+            ((FindLocation) getApplicationContext()).setZip(ZIPCODE);
+        }
     }
 }

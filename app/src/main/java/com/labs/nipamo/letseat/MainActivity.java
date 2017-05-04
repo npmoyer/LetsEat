@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         } else{
            Toast toast = Toast.makeText(MainActivity.this,
-                   "Select a location setting in the Settings screen", Toast.LENGTH_LONG);
+                   "Configure location settings first", Toast.LENGTH_LONG);
            toast.show();
        }
     }
@@ -74,7 +75,30 @@ public class MainActivity extends AppCompatActivity {
     /* Called when the user taps the "Let's Eat" button */
     public void letsEat(View view){
         TextView result = (TextView) findViewById(R.id.result);
-        result.setText("It worked!");
-        result.setVisibility(View.VISIBLE);
+        Button details = (Button) findViewById(R.id.details_button);
+        Button onMap =  (Button) findViewById(R.id.show_on_map_button);
+        Button directions = (Button) findViewById(R.id.directions_button);
+
+        // Check if the user selected a location setting
+        if (((FindLocation) getApplicationContext()).getCurrent() ||
+                ((FindLocation) getApplicationContext()).getCustom()){
+            // Display the result
+            result.setText("It worked!");
+            result.setVisibility(View.VISIBLE);
+            details.setVisibility(View.VISIBLE);
+            onMap.setVisibility(View.VISIBLE);
+            directions.setVisibility(View.VISIBLE);
+        } else{
+            Toast toast = Toast.makeText(MainActivity.this,
+                    "Configure location settings first", Toast.LENGTH_LONG);
+            toast.show();
+        }
+    }
+
+    /* Called when the user taps on a button that is not implemented yet */
+    public void notImplemented(View view){
+        Toast toast = Toast.makeText(MainActivity.this,
+                "Sorry, this button doesn't work yet!", Toast.LENGTH_LONG);
+        toast.show();
     }
 }
