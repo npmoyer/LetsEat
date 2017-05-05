@@ -20,16 +20,17 @@
         android:theme="@style/Theme.AppCompat.NoActionBar">
 
         <!-- Main Activity -->
-        <activity android:name="com.labs.nipamo.letseat.MainActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <!-- Maps Activity -->
         <activity
-            android:name="com.labs.nipamo.letseat.MapsActivity"
+            android:name=".MapsActivity"
             android:label="@string/title_activity_maps">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -38,17 +39,17 @@
 
         <!-- Options Activity -->
         <activity
-            android:name="com.labs.nipamo.letseat.OptionsActivity"
-            android:label="@string/title_activity_options" >
+            android:name=".OptionsActivity"
+            android:label="@string/title_activity_options">
             <meta-data
-              android:name="android.support.PARENT_ACTIVITY"
-              android:value="com.labs.nipamo.letseat.MainActivity" />
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.labs.nipamo.letseat.MainActivity" />
         </activity>
 
         <!-- Settings Activity -->
         <activity
-            android:name="com.labs.nipamo.letseat.SettingsActivity"
-            android:label="@string/title_activity_settings" >
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.labs.nipamo.letseat.MainActivity" />
@@ -56,8 +57,8 @@
 
         <!-- About Activity -->
         <activity
-            android:name="com.labs.nipamo.letseat.AboutActivity"
-            android:label="@string/title_activity_about" >
+            android:name=".AboutActivity"
+            android:label="@string/title_activity_about">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.labs.nipamo.letseat.MainActivity" />
@@ -71,9 +72,12 @@
    You need a different API key for each encryption key, including the release key that is used to
    sign the APK for publishing.
    You can define the keys for the debug and release targets in src/debug/ and src/release/.
--->
+        -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
+
+        <activity android:name=".ListActivity"></activity>
     </application>
+
 </manifest>

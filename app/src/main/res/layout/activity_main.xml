@@ -34,13 +34,13 @@
             android:textAllCaps="false" />
 
         <Button
-            android:id="@+id/optons_button"
+            android:id="@+id/view_list_button"
             android:layout_width="150dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:layout_margin="15dp"
-            android:text="@string/options_button"
-            android:onClick="chooseOptions"
+            android:text="@string/view_list_button"
+            android:onClick="viewList"
             android:layout_weight=".5"
             android:textAllCaps="false" />
     </LinearLayout>

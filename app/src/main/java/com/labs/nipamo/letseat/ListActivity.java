@@ -9,14 +9,14 @@ import android.view.MenuInflater;
 
 import static com.labs.nipamo.letseat.R.menu.other;
 
-public class AboutActivity extends AppCompatActivity {
+public class ListActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about);
+        setContentView(R.layout.activity_list);
 
-        // Set up the app bar
+        // Set uo the app bar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

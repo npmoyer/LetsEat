@@ -13,7 +13,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import static com.labs.nipamo.letseat.R.menu.main;
+import static com.labs.nipamo.letseat.R.menu.other;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -38,7 +38,7 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(main, menu);
+        inflater.inflate(other, menu);
         return true;
     }
 

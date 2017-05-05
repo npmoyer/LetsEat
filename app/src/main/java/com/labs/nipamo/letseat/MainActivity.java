@@ -51,6 +51,11 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         Intent intent;
         switch (item.getItemId()){
+            case R.id.options:
+                intent = new Intent(this, OptionsActivity.class);
+                startActivity(intent);
+                return true;
+
             case R.id.settings:
                 intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
@@ -75,6 +80,9 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, MapsActivity.class);
             startActivity(intent);
         } else{
+           // Go to the settings activity so the user can enter location setting
+           Intent intent = new Intent (this, SettingsActivity.class);
+           startActivity(intent);
            Toast toast = Toast.makeText(MainActivity.this,
                    "Configure location settings first", Toast.LENGTH_LONG);
            toast.show();
@@ -82,8 +90,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /* Called when the user taps the "Choose Options" button */
-    public void chooseOptions(View view){
-        Intent intent = new Intent(this, OptionsActivity.class);
+    public void viewList(View view){
+        Intent intent = new Intent(this, ListActivity.class);
         startActivity(intent);
     }
 
@@ -114,6 +122,9 @@ public class MainActivity extends AppCompatActivity {
             onMap.setVisibility(View.VISIBLE);
             directions.setVisibility(View.VISIBLE);
         } else{
+            // Go to the settings activity so the user can enter location setting
+            Intent intent = new Intent (this, SettingsActivity.class);
+            startActivity(intent);
             Toast toast = Toast.makeText(MainActivity.this,
                     "Configure location settings first", Toast.LENGTH_LONG);
             toast.show();

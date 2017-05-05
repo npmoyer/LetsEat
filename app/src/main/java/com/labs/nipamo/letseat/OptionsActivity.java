@@ -1,12 +1,15 @@
 package com.labs.nipamo.letseat;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+
+import static com.labs.nipamo.letseat.R.menu.other;
 
 public class OptionsActivity extends AppCompatActivity {
 
@@ -58,12 +61,18 @@ public class OptionsActivity extends AppCompatActivity {
         // Set uo the app bar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        // Add the back button
+        ActionBar ab = getSupportActionBar();
+        if (ab != null) {
+            ab.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main, menu);
+        inflater.inflate(other, menu);
         return true;
     }
 
