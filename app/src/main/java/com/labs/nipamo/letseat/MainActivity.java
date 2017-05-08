@@ -160,6 +160,9 @@ public class MainActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        Toast toast = Toast.makeText(MainActivity.this,
+                                "Something went wrong", Toast.LENGTH_LONG);
+                        toast.show();
                     }
                 });
         FindPlaces.getInstance().addToRequestQueue(request);

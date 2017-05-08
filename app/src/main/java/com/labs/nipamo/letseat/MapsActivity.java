@@ -2,7 +2,6 @@ package com.labs.nipamo.letseat;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -33,7 +32,6 @@ import static com.labs.nipamo.letseat.FindPlacesConfig.PROXIMITY_RADIUS;
 import static com.labs.nipamo.letseat.FindPlacesConfig.REFERENCE;
 import static com.labs.nipamo.letseat.FindPlacesConfig.STATUS;
 import static com.labs.nipamo.letseat.FindPlacesConfig.SUPERMARKET_ID;
-import static com.labs.nipamo.letseat.FindPlacesConfig.TAG;
 import static com.labs.nipamo.letseat.FindPlacesConfig.VICINITY;
 import static com.labs.nipamo.letseat.FindPlacesConfig.ZERO_RESULTS;
 
@@ -81,7 +79,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         myPosition = new LatLng(latitude, longitude);
         googleMap.addMarker(new MarkerOptions().position(myPosition).title("Current Location"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(myPosition));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(15.0f), 3000, null);
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(13.0f), 5000, null);
 
         loadNearbyPlaces(latitude, longitude);
     }
@@ -102,15 +100,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject result) {
-                        Log.i(TAG, "onResponse: Result= " + result.toString());
                         parseLocationResult(result);
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e(TAG, "onErrorResponse: Error= " + error);
-                        Log.e(TAG, "onErrorResponse: Error= " + error.getMessage());
+                        Toast toast = Toast.makeText(MapsActivity.this,
+                                "Something went wrong", Toast.LENGTH_LONG);
+                        toast.show();
                     }
                 });
 
@@ -150,7 +148,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     MarkerOptions markerOptions = new MarkerOptions();
                     LatLng latLng = new LatLng(latitude, longitude);
                     markerOptions.position(latLng);
-                    markerOptions.title(placeName + " : " + vicinity);
+                    markerOptions.title(placeName);
 
                     mMap.addMarker(markerOptions);
                 }
@@ -163,9 +161,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
 
         } catch (JSONException e) {
-
-            e.printStackTrace();
-            Log.e(TAG, "parseLocationResult: Error=" + e.getMessage());
+            Toast toast = Toast.makeText(MapsActivity.this,
+                    "Something went wrong", Toast.LENGTH_LONG);
+            toast.show();
         }
     }
 }

@@ -11,6 +11,9 @@
     <string name="show_on_map_button">Show on Map</string>
     <string name="directions_button">Directions</string>
 
+    <!-- List Activity Strings -->
+    <string name="title_activity_list">Nearby Places</string>
+
     <!-- Options Activity Strings -->
     <string name="title_activity_options">Options</string>
     <string name="options_apply">Apply</string>

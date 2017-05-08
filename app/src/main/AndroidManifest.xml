@@ -37,6 +37,14 @@
                 android:value="com.labs.nipamo.letseat.MainActivity" />
         </activity>
 
+        <activity
+            android:name=".ListActivity"
+            android:label="@string/title_activity_list">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.labs.nipamo.letseat.MainActivity" />
+        </activity>
+
         <!-- Options Activity -->
         <activity
             android:name=".OptionsActivity"
@@ -77,7 +85,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".ListActivity"></activity>
     </application>
 
 </manifest>
