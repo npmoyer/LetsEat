@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
             ((FindLocation) getApplicationContext()).setLocation();
             latitude = ((FindLocation) getApplicationContext()).getLatitude();
             longitude = ((FindLocation) getApplicationContext()).getLongitude();
-            loadNearbyPlaces(latitude, longitude);
+           loadNearbyPlaces(latitude, longitude);
 
             // Display the result
             if (this.name != null){

@@ -1,12 +1,8 @@
 package com.labs.nipamo.letseat;
 
-import android.text.TextUtils;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
-
-import static com.labs.nipamo.letseat.FindPlacesConfig.TAG;
 
 public class FindPlaces extends FindLocation {
 
@@ -18,7 +14,6 @@ public class FindPlaces extends FindLocation {
     public void onCreate() {
         super.onCreate();
         mInstance = this;
-
     }
 
     public static synchronized FindPlaces getInstance() {
@@ -32,19 +27,7 @@ public class FindPlaces extends FindLocation {
         return mRequestQueue;
     }
 
-    public <T> void addToRequestQueue(Request<T> req, String tag) {
-        req.setTag(TextUtils.isEmpty(tag) ? TAG : tag);
-        getRequestQueue().add(req);
-    }
-
     public <T> void addToRequestQueue(Request<T> req) {
-        req.setTag(TAG);
         getRequestQueue().add(req);
-    }
-
-    public void cancelPendingRequests(Object tag) {
-        if (mRequestQueue != null) {
-            mRequestQueue.cancelAll(tag);
-        }
     }
 }

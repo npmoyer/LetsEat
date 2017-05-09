@@ -19,21 +19,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import static com.labs.nipamo.letseat.FindPlacesConfig.APIKEY;
-import static com.labs.nipamo.letseat.FindPlacesConfig.GEOMETRY;
-import static com.labs.nipamo.letseat.FindPlacesConfig.ICON;
-import static com.labs.nipamo.letseat.FindPlacesConfig.LATITUDE;
-import static com.labs.nipamo.letseat.FindPlacesConfig.LOCATION;
-import static com.labs.nipamo.letseat.FindPlacesConfig.LONGITUDE;
-import static com.labs.nipamo.letseat.FindPlacesConfig.NAME;
-import static com.labs.nipamo.letseat.FindPlacesConfig.OK;
-import static com.labs.nipamo.letseat.FindPlacesConfig.PLACE_ID;
-import static com.labs.nipamo.letseat.FindPlacesConfig.PROXIMITY_RADIUS;
-import static com.labs.nipamo.letseat.FindPlacesConfig.REFERENCE;
-import static com.labs.nipamo.letseat.FindPlacesConfig.STATUS;
-import static com.labs.nipamo.letseat.FindPlacesConfig.SUPERMARKET_ID;
-import static com.labs.nipamo.letseat.FindPlacesConfig.VICINITY;
-import static com.labs.nipamo.letseat.FindPlacesConfig.ZERO_RESULTS;
+import static com.labs.nipamo.letseat.FindPlacesConfig.*;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -54,8 +40,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
      * If Google Play services is not installed on the device, the user will be prompted to install
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
@@ -84,7 +68,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         loadNearbyPlaces(latitude, longitude);
     }
 
-    private void loadNearbyPlaces(double latitude, double longitude){
+    private void loadNearbyPlaces(double latitude, double longitude) {
         String type = "restaurant";
 
         StringBuilder googlePlacesUrl =
@@ -96,7 +80,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         googlePlacesUrl.append("&key=" + APIKEY);
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
-                googlePlacesUrl.toString(), (String)null,
+                googlePlacesUrl.toString(), (String) null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject result) {
@@ -117,39 +101,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void parseLocationResult(JSONObject result) {
 
-        String id, place_id, placeName = null, reference, icon, vicinity = null;
+        String placeName = null;
         double latitude, longitude;
 
         try {
             JSONArray jsonArray = result.getJSONArray("results");
 
             if (result.getString(STATUS).equalsIgnoreCase(OK)) {
-
                 mMap.clear();
-
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject place = jsonArray.getJSONObject(i);
-
-                    id = place.getString(SUPERMARKET_ID);
-                    place_id = place.getString(PLACE_ID);
                     if (!place.isNull(NAME)) {
                         placeName = place.getString(NAME);
-                    }
-                    if (!place.isNull(VICINITY)) {
-                        vicinity = place.getString(VICINITY);
                     }
                     latitude = place.getJSONObject(GEOMETRY).getJSONObject(LOCATION)
                             .getDouble(LATITUDE);
                     longitude = place.getJSONObject(GEOMETRY).getJSONObject(LOCATION)
                             .getDouble(LONGITUDE);
-                    reference = place.getString(REFERENCE);
-                    icon = place.getString(ICON);
 
                     MarkerOptions markerOptions = new MarkerOptions();
                     LatLng latLng = new LatLng(latitude, longitude);
                     markerOptions.position(latLng);
                     markerOptions.title(placeName);
-
                     mMap.addMarker(markerOptions);
                 }
 
@@ -159,7 +132,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Toast.makeText(getBaseContext(), "No Restaurants found in 5KM radius!!!",
                         Toast.LENGTH_LONG).show();
             }
-
         } catch (JSONException e) {
             Toast toast = Toast.makeText(MapsActivity.this,
                     "Something went wrong", Toast.LENGTH_LONG);

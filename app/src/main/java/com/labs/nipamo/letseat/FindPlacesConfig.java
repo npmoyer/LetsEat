@@ -2,8 +2,6 @@ package com.labs.nipamo.letseat;
 
 
 public final class FindPlacesConfig {
-    public static final String TAG = "gplaces";
-
     public static final String RESULTS = "results";
     public static final String STATUS = "status";
 
@@ -14,7 +12,7 @@ public final class FindPlacesConfig {
     public static final String UNKNOWN_ERROR = "UNKNOWN_ERROR";
     public static final String INVALID_REQUEST = "INVALID_REQUEST";
 
-    //    Key for nearby places json from google
+    // Key for nearby places json from google
     public static final String GEOMETRY = "geometry";
     public static final String LOCATION = "location";
     public static final String LATITUDE = "lat";
