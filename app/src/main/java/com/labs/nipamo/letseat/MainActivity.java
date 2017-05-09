@@ -89,18 +89,22 @@ public class MainActivity extends AppCompatActivity {
        }
     }
 
-    /* Called when the user taps the "Choose Options" button */
+    /* Called when the user taps the "View List" button */
     public void viewList(View view){
         Intent intent = new Intent(this, ListActivity.class);
         startActivity(intent);
     }
 
+    public void showDetails(View view){
+        Intent intent = new Intent (this, DetailsActivity.class);
+        startActivity(intent);
+    }
+
+
     /* Called when the user taps the "Let's Eat" button */
     public void letsEat(View view){
         TextView result = (TextView) findViewById(R.id.result);
         Button details = (Button) findViewById(R.id.details_button);
-        Button onMap =  (Button) findViewById(R.id.show_on_map_button);
-        Button directions = (Button) findViewById(R.id.directions_button);
         double latitude;
         double longitude;
 
@@ -119,8 +123,6 @@ public class MainActivity extends AppCompatActivity {
             }
             result.setVisibility(View.VISIBLE);
             details.setVisibility(View.VISIBLE);
-            onMap.setVisibility(View.VISIBLE);
-            directions.setVisibility(View.VISIBLE);
         } else{
             // Go to the settings activity so the user can enter location setting
             Intent intent = new Intent (this, SettingsActivity.class);
@@ -129,13 +131,6 @@ public class MainActivity extends AppCompatActivity {
                     "Configure location settings first", Toast.LENGTH_LONG);
             toast.show();
         }
-    }
-
-    /* Called when the user taps on a button that is not implemented yet */
-    public void notImplemented(View view){
-        Toast toast = Toast.makeText(MainActivity.this,
-                "Sorry, this button doesn't work yet!", Toast.LENGTH_LONG);
-        toast.show();
     }
 
     private void loadNearbyPlaces(double latitude, double longitude){
