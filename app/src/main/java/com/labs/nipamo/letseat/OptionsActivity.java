@@ -1,11 +1,13 @@
 package com.labs.nipamo.letseat;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
@@ -38,7 +40,7 @@ public class OptionsActivity extends AppCompatActivity {
         // Apply the adapter to the spinner
         spinner2.setAdapter(adapter2);
 
-        // Set up distance spinner
+        // Set up rating spinner
         Spinner spinner3 = (Spinner) findViewById(R.id.ratingSpinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter3 = ArrayAdapter.createFromResource(this,
@@ -48,7 +50,7 @@ public class OptionsActivity extends AppCompatActivity {
         // Apply the adapter to the spinner
         spinner3.setAdapter(adapter3);
 
-        // Set up category spinner
+        // Set up price spinner
         Spinner spinner4 = (Spinner) findViewById(R.id.priceSpinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter4 = ArrayAdapter.createFromResource(this,
@@ -76,5 +78,25 @@ public class OptionsActivity extends AppCompatActivity {
         return true;
     }
 
+    /* Called when the user pressed the "Apply" button */
+    public void apply(View view){
+        // Go back to the Main Activity
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
 
+    /* Called when the user pressed the "Apply" button */
+    public void reset(View view) {
+        // Set up spinner variables
+        Spinner spinner1 = (Spinner) findViewById(R.id.distanceSpinner);
+        Spinner spinner2 = (Spinner) findViewById(R.id.categorySpinner);
+        Spinner spinner3 = (Spinner) findViewById(R.id.ratingSpinner);
+        Spinner spinner4 = (Spinner) findViewById(R.id.priceSpinner);
+
+        // Reset the spinners to default values
+        spinner1.setSelection(0);
+        spinner2.setSelection(0);
+        spinner3.setSelection(0);
+        spinner4.setSelection(0);
+    }
 }
