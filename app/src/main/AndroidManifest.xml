@@ -71,6 +71,16 @@
                 android:value="com.labs.nipamo.letseat.MainActivity" />
         </activity>
 
+        <!-- Details Activity -->
+        <activity
+            android:name=".DetailsActivity"
+            android:label="@string/title_activity_details" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.labs.nipamo.letseat.MainActivity" />
+        </activity>
+
+
         <!-- Maps API -->
         <!--
    The API key for Google Maps-based APIs is defined as a string resource.
@@ -83,8 +93,6 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-
-        <activity android:name=".DetailsActivity"></activity>
     </application>
 
 </manifest>

@@ -95,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /* Called when the user taps the "Details" button */
     public void showDetails(View view){
         Intent intent = new Intent (this, DetailsActivity.class);
         startActivity(intent);
@@ -169,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
         Random rand = new Random();
 
         try {
-            JSONArray jsonArray = result.getJSONArray("results");
+            JSONArray jsonArray = result.getJSONArray(RESULTS);
 
             if (result.getString(STATUS).equalsIgnoreCase(OK)) {
                 // Pick a random place

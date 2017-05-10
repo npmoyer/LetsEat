@@ -72,5 +72,6 @@
     <string name="menu_about">About</string>
     <string name="title_activity_about">About</string>
     <string name="menu_options">Options</string>
+    <string name="title_activity_details">Place Details</string>
 
 </resources>
