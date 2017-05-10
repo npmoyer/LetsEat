@@ -17,6 +17,85 @@
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat" />
 
+    <TextView
+        android:id="@+id/result"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:ems="10"
+        android:layout_margin="20dp"
+        android:layout_gravity="center"
+        android:textSize="30sp"
+        android:textAlignment="center" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/location"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:text="@string/details_location"
+            android:textSize="20sp"
+            android:layout_margin="10dp"
+            android:layout_weight=".25"/>
+
+        <TextView
+            android:id="@+id/locationValue"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_margin="10dp"
+            android:layout_weight=".5"/>
+        </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/rating"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:text="@string/details_rating"
+            android:textSize="20sp"
+            android:layout_margin="10dp"
+            android:layout_weight=".25"/>
+
+        <TextView
+            android:id="@+id/ratingValue"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_margin="10dp"
+            android:layout_weight=".5"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:text="@string/details_price"
+            android:textSize="20sp"
+            android:layout_margin="10dp"
+            android:layout_weight=".25"/>
+
+        <TextView
+            android:id="@+id/priceValue"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_margin="10dp"
+            android:layout_weight=".5"/>
+    </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

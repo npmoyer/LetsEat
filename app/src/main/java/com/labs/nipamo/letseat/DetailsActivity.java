@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.View;
+import android.widget.Toast;
 
 import static com.labs.nipamo.letseat.R.menu.other;
 
@@ -32,5 +34,11 @@ public class DetailsActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(other, menu);
         return true;
+    }
+
+    public void notImplemented(View view){
+        Toast toast = Toast.makeText(DetailsActivity.this,
+                "Button has not been implemented yet", Toast.LENGTH_LONG);
+        toast.show();
     }
 }

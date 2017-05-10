@@ -101,6 +101,9 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public String getName(){
+        return this.name;
+    }
 
     /* Called when the user taps the "Let's Eat" button */
     public void letsEat(View view){
