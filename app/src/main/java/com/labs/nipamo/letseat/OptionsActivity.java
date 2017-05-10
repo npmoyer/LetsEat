@@ -80,12 +80,19 @@ public class OptionsActivity extends AppCompatActivity {
 
     /* Called when the user pressed the "Apply" button */
     public void apply(View view){
+        // Set up spinner variables
+        Spinner spinner1 = (Spinner) findViewById(R.id.distanceSpinner);
+        Spinner spinner2 = (Spinner) findViewById(R.id.categorySpinner);
+        Spinner spinner3 = (Spinner) findViewById(R.id.ratingSpinner);
+        Spinner spinner4 = (Spinner) findViewById(R.id.priceSpinner);
+
+        setOptions(spinner1, spinner2, spinner3, spinner4);
         // Go back to the Main Activity
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 
-    /* Called when the user pressed the "Apply" button */
+    /* Called when the user pressed the "Reset" button */
     public void reset(View view) {
         // Set up spinner variables
         Spinner spinner1 = (Spinner) findViewById(R.id.distanceSpinner);
@@ -98,5 +105,31 @@ public class OptionsActivity extends AppCompatActivity {
         spinner2.setSelection(0);
         spinner3.setSelection(0);
         spinner4.setSelection(0);
+    }
+
+    private void setOptions(Spinner s1, Spinner s2, Spinner s3, Spinner s4){
+        int distance = s1.getSelectedItemPosition();
+        switch (distance){
+            case 1:
+                ((FindPlacesConfig) getApplicationContext()).setDistance(1609);
+                break;
+            case 2:
+                ((FindPlacesConfig) getApplicationContext()).setDistance(3219);
+                break;
+            case 3:
+                ((FindPlacesConfig) getApplicationContext()).setDistance(4828);
+                break;
+            case 4:
+                ((FindPlacesConfig) getApplicationContext()).setDistance(6437);
+                break;
+            case 5:
+                ((FindPlacesConfig) getApplicationContext()).setDistance(8047);
+                break;
+            case 6:
+                ((FindPlacesConfig) getApplicationContext()).setDistance(32190);
+                break;
+            default:
+                break;
+        }
     }
 }

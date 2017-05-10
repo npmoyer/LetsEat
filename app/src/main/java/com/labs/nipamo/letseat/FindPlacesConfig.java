@@ -1,7 +1,7 @@
 package com.labs.nipamo.letseat;
 
 
-public class FindPlacesConfig {
+public class FindPlacesConfig extends FindPlaces{
     // API Key
     public static final String APIKEY = "AIzaSyAZMaNIoaHaoakcShaJ8rfB8XkvcMK9CSc";
 
@@ -26,5 +26,17 @@ public class FindPlacesConfig {
     public static final String RATING = "rating";
     public static final String PRICE = "price_level";
 
-    public static final int PROXIMITY_RADIUS = 5000;
+    private int distance;
+
+    public void setDistance(int dist) {
+        this.distance = dist;
+    }
+
+    public int getDistance(){
+        if (this.distance != 0) {
+            return this.distance;
+        }else {
+            return this.distance = 804;
+        }
+    }
 }

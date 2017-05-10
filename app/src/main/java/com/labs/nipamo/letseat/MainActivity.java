@@ -137,10 +137,12 @@ public class MainActivity extends AppCompatActivity {
     private void loadNearbyPlaces(double latitude, double longitude){
         String type = "restaurant";
 
+        int distance = ((FindPlacesConfig) getApplicationContext()).getDistance();
+
         StringBuilder googlePlacesUrl =
                 new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
         googlePlacesUrl.append("location=").append(latitude).append(",").append(longitude);
-        googlePlacesUrl.append("&radius=").append(PROXIMITY_RADIUS);
+        googlePlacesUrl.append("&radius=").append(distance);
         googlePlacesUrl.append("&types=").append(type);
         googlePlacesUrl.append("&sensor=true");
         googlePlacesUrl.append("&key=" + APIKEY);

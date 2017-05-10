@@ -1,5 +1,6 @@
 package com.labs.nipamo.letseat;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
@@ -12,6 +13,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -19,7 +22,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import static com.labs.nipamo.letseat.FindPlacesConfig.*;
+import static com.labs.nipamo.letseat.FindPlacesConfig.APIKEY;
+import static com.labs.nipamo.letseat.FindPlacesConfig.GEOMETRY;
+import static com.labs.nipamo.letseat.FindPlacesConfig.LATITUDE;
+import static com.labs.nipamo.letseat.FindPlacesConfig.LOCATION;
+import static com.labs.nipamo.letseat.FindPlacesConfig.LONGITUDE;
+import static com.labs.nipamo.letseat.FindPlacesConfig.NAME;
+import static com.labs.nipamo.letseat.FindPlacesConfig.OK;
+import static com.labs.nipamo.letseat.FindPlacesConfig.STATUS;
+import static com.labs.nipamo.letseat.FindPlacesConfig.ZERO_RESULTS;
+import static com.labs.nipamo.letseat.R.id.map;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -32,7 +44,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+                .findFragmentById(map);
         mapFragment.getMapAsync(this);
     }
 
@@ -65,16 +77,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.moveCamera(CameraUpdateFactory.newLatLng(myPosition));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(13.0f), 5000, null);
 
+        // Draw a circle on the map
+        int radius = ((FindPlacesConfig) getApplicationContext()).getDistance();
+        Circle circle = mMap.addCircle(new CircleOptions()
+                        .center(myPosition)
+                        .radius(radius)
+                        .strokeColor(Color.RED));
         loadNearbyPlaces(latitude, longitude);
     }
 
     private void loadNearbyPlaces(double latitude, double longitude) {
         String type = "restaurant";
 
+        int distance = ((FindPlacesConfig) getApplicationContext()).getDistance();
+
         StringBuilder googlePlacesUrl =
                 new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
         googlePlacesUrl.append("location=").append(latitude).append(",").append(longitude);
-        googlePlacesUrl.append("&radius=").append(PROXIMITY_RADIUS);
+        googlePlacesUrl.append("&radius=").append(distance);
         googlePlacesUrl.append("&types=").append(type);
         googlePlacesUrl.append("&sensor=true");
         googlePlacesUrl.append("&key=" + APIKEY);
@@ -108,7 +128,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             JSONArray jsonArray = result.getJSONArray("results");
 
             if (result.getString(STATUS).equalsIgnoreCase(OK)) {
-                mMap.clear();
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject place = jsonArray.getJSONObject(i);
                     if (!place.isNull(NAME)) {
