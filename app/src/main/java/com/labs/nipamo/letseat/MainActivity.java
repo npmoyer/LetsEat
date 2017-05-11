@@ -16,6 +16,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,7 +25,12 @@ import org.json.JSONObject;
 
 import java.util.Random;
 
-import static com.labs.nipamo.letseat.FindPlacesConfig.*;
+import static com.labs.nipamo.letseat.FindPlacesConfig.APIKEY;
+import static com.labs.nipamo.letseat.FindPlacesConfig.NAME;
+import static com.labs.nipamo.letseat.FindPlacesConfig.OK;
+import static com.labs.nipamo.letseat.FindPlacesConfig.RESULTS;
+import static com.labs.nipamo.letseat.FindPlacesConfig.STATUS;
+import static com.labs.nipamo.letseat.FindPlacesConfig.ZERO_RESULTS;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,6 +44,12 @@ public class MainActivity extends AppCompatActivity {
         // Set up the app bar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        // Set up the ad banner
+        AdView adView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder()
+                .setRequestAgent("android_studio:ad_template").build();
+        adView.loadAd(adRequest);
         }
 
     @Override

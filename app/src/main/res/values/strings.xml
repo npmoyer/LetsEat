@@ -79,4 +79,7 @@
     <string name="title_activity_about">About</string>
     <string name="menu_options">Options</string>
 
+    <!-- AdMob Strings -->
+    <string name="unit_id">ca-app-pub-8326478359549506/7901811074</string>
+
 </resources>

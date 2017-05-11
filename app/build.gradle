@@ -7,8 +7,8 @@ android {
         applicationId "com.labs.nipamo.letseat"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 3
-        versionName "1.1"
+        versionCode 4
+        versionName "1.1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -32,5 +32,6 @@ dependencies {
     compile 'com.android.support:support-vector-drawable:25.3.1'
     compile 'com.android.support:design:25.3.1'
     compile 'com.mcxiaoke.volley:library:1.0.19'
+    compile 'com.google.android.gms:play-services-ads:10.2.4'
     testCompile 'junit:junit:4.12'
 }

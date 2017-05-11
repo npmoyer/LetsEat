@@ -80,6 +80,11 @@
                 android:value="com.labs.nipamo.letseat.MainActivity" />
         </activity>
 
+        <!-- AdMob Activity -->
+        <activity
+            android:name="com.google.android.gms.ads.AdActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            android:theme="@android:style/Theme.Translucent" />
 
         <!-- Maps API -->
         <!--
