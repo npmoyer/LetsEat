@@ -28,8 +28,11 @@ import java.util.Random;
 import static com.labs.nipamo.letseat.FindPlacesConfig.APIKEY;
 import static com.labs.nipamo.letseat.FindPlacesConfig.NAME;
 import static com.labs.nipamo.letseat.FindPlacesConfig.OK;
+import static com.labs.nipamo.letseat.FindPlacesConfig.PRICE;
+import static com.labs.nipamo.letseat.FindPlacesConfig.RATING;
 import static com.labs.nipamo.letseat.FindPlacesConfig.RESULTS;
 import static com.labs.nipamo.letseat.FindPlacesConfig.STATUS;
+import static com.labs.nipamo.letseat.FindPlacesConfig.VICINITY;
 import static com.labs.nipamo.letseat.FindPlacesConfig.ZERO_RESULTS;
 
 public class MainActivity extends AppCompatActivity {
@@ -132,14 +135,15 @@ public class MainActivity extends AppCompatActivity {
             ((FindLocation) getApplicationContext()).setLocation();
             latitude = ((FindLocation) getApplicationContext()).getLatitude();
             longitude = ((FindLocation) getApplicationContext()).getLongitude();
-           loadNearbyPlaces(latitude, longitude);
+            loadNearbyPlaces(latitude, longitude);
 
             // Display the result
             if (this.name != null){
+                loadNearbyPlaces(latitude, longitude);
                 result.setText(this.name);
+                result.setVisibility(View.VISIBLE);
+                details.setVisibility(View.VISIBLE);
             }
-            result.setVisibility(View.VISIBLE);
-            details.setVisibility(View.VISIBLE);
         } else{
             // Go to the settings activity so the user can enter location setting
             Intent intent = new Intent (this, SettingsActivity.class);
@@ -184,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void parseLocationResult(JSONObject result) {
 
-        String placeName;
+        String placeName, placeLocation, placeRating, placePrice;
         Random rand = new Random();
 
         try {
@@ -196,7 +200,24 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject place = jsonArray.getJSONObject(i);
                 if (!place.isNull(NAME)) {
                     placeName = place.getString(NAME);
+                    if (place.has(VICINITY)) {
+                        placeLocation = place.getString(VICINITY);
+                    }else{
+                        placeLocation = "?";
+                    }
+                    if (place.has(RATING)){
+                        placeRating = place.getString(RATING);
+                    }else{
+                        placeRating = "?";
+                    }
+                    if (place.has(PRICE)){
+                        placePrice = place.getString(PRICE);
+
+                    }else{
+                        placePrice = "?";
+                    }
                     this.name = placeName;
+                    ((FindPlaces) getApplicationContext()).setAll(placeName, placeLocation, placeRating, placePrice);
                 }
             } else if (result.getString(STATUS).equalsIgnoreCase(ZERO_RESULTS)) {
                 Toast.makeText(getBaseContext(), "No Restaurants found in 5KM radius!",

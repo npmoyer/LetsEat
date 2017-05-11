@@ -7,8 +7,9 @@ import com.android.volley.toolbox.Volley;
 public class FindPlaces extends FindLocation {
 
     private RequestQueue mRequestQueue;
-
     private static FindPlaces mInstance;
+
+    private String name, location, rating, price;
 
     @Override
     public void onCreate() {
@@ -30,4 +31,28 @@ public class FindPlaces extends FindLocation {
     public <T> void addToRequestQueue(Request<T> req) {
         getRequestQueue().add(req);
     }
+
+    public void setAll(String name, String location, String rating, String price){
+        this.name = name;
+        this.location = location;
+        this.rating = rating;
+        this.price = price;
+    }
+
+    public String getName(){
+        return this.name;
+    }
+
+    public String getLocation(){
+        return this.location;
+    }
+
+    public String getRating(){
+        return this.rating;
+    }
+
+    public String getPrice(){
+        return this.price;
+    }
+
 }

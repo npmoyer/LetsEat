@@ -25,6 +25,7 @@ public class FindPlacesConfig extends FindPlaces{
     public static final String OPEN = "open_now";
     public static final String RATING = "rating";
     public static final String PRICE = "price_level";
+    public static final String PAGE = "next_page_token";
 
     private int distance;
 

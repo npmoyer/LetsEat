@@ -44,7 +44,7 @@
         <TextView
             android:id="@+id/locationValue"
             android:layout_width="50dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50sp"
             android:textSize="20sp"
             android:layout_margin="10dp"
             android:layout_weight=".5"/>

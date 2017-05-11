@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import static com.labs.nipamo.letseat.R.menu.other;
@@ -27,6 +28,26 @@ public class DetailsActivity extends AppCompatActivity {
         if (ab != null) {
             ab.setDisplayHomeAsUpEnabled(true);
         }
+
+        String name, location, rating, price;
+
+        name = ((FindPlaces) getApplicationContext()).getName();
+        location = ((FindPlaces) getApplicationContext()).getLocation();
+        rating = ((FindPlaces) getApplicationContext()).getRating();
+        price = ((FindPlaces) getApplicationContext()).getPrice();
+        rating = rating + "/5";
+        price = price + "/4";
+
+        TextView nameText = (TextView) findViewById(R.id.result);
+        TextView locationText = (TextView) findViewById(R.id.locationValue);
+        TextView ratingText = (TextView) findViewById(R.id.ratingValue);
+        TextView priceText = (TextView) findViewById(R.id.priceValue);
+
+
+        nameText.setText(name);
+        locationText.setText(location);
+        ratingText.setText(rating);
+        priceText.setText(price);
     }
 
     @Override
