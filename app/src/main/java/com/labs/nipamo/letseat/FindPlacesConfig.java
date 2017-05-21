@@ -28,9 +28,14 @@ public class FindPlacesConfig extends FindPlaces{
     public static final String PAGE = "next_page_token";
 
     private int distance;
+    private String category;
 
     public void setDistance(int dist) {
         this.distance = dist;
+    }
+
+    public void setCategory(String cat){
+        this.category = cat;
     }
 
     public int getDistance(){
@@ -39,5 +44,9 @@ public class FindPlacesConfig extends FindPlaces{
         }else {
             return this.distance = 804;
         }
+    }
+
+    public String getCategory(){
+        return this.category;
     }
 }

@@ -131,5 +131,14 @@ public class OptionsActivity extends AppCompatActivity {
             default:
                 break;
         }
+
+        String category = s2.getSelectedItem().toString();
+        switch (category){
+            case "Pizza":
+                ((FindPlacesConfig) getApplicationContext()).setCategory(category);
+                break;
+            default:
+                break;
+        }
     }
 }

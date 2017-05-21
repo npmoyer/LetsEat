@@ -1,6 +1,8 @@
 package com.labs.nipamo.letseat;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -13,11 +15,18 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import static com.labs.nipamo.letseat.R.id.zipcode;
 import static com.labs.nipamo.letseat.R.menu.other;
 
 public class SettingsActivity extends AppCompatActivity {
 
+    static final String CURRENTSAVE = "currentSave";
+    static final String CUSTOMSAVE = "customSave";
+    static final String ZIPCODESAVE = "zipcodeSave";
+    public static final String PREFERENCES = "Prefs";
     public String ZIPCODE;
+
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +42,21 @@ public class SettingsActivity extends AppCompatActivity {
         if (ab != null) {
             ab.setDisplayHomeAsUpEnabled(true);
         }
+
+        sharedPreferences = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
+
+        if (sharedPreferences != null){
+            boolean customSave, currentSave;
+            customSave = sharedPreferences.getBoolean(CUSTOMSAVE, false);
+            currentSave = sharedPreferences.getBoolean(CURRENTSAVE, false);
+            ZIPCODE = sharedPreferences.getString(ZIPCODESAVE, null);
+            if (customSave){
+                findViewById(R.id.customLocation).performClick();
+            }
+            if (currentSave){
+                findViewById(R.id.currentLocation).performClick();
+            }
+        }
     }
 
     @Override
@@ -46,7 +70,7 @@ public class SettingsActivity extends AppCompatActivity {
     public void setCurrent(View view){
         // Set local variables
         RadioButton custom = (RadioButton) findViewById(R.id.customLocation);
-        TextView zipCode = (TextView) findViewById(R.id.zipcode);
+        TextView zipCode = (TextView) findViewById(zipcode);
         EditText zipCodeText = (EditText) findViewById(R.id.zipcodeText);
 
         // Hide custom location stuff
@@ -79,13 +103,18 @@ public class SettingsActivity extends AppCompatActivity {
             ((FindLocation) getApplicationContext()).setCurrent(true);
             ((FindLocation) getApplicationContext()).setCustom(false);
         }
+
+        SharedPreferences.Editor editor = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE).edit();
+        editor.putBoolean(CURRENTSAVE, true);
+        editor.putBoolean(CUSTOMSAVE, false);
+        editor.commit();
     }
 
     /* Called when the user presses the "Custom Location" radio button */
     public void setCustom(View view){
         // Set local variables
         RadioButton current = (RadioButton) findViewById(R.id.currentLocation);
-        TextView zipCode = (TextView) findViewById(R.id.zipcode);
+        TextView zipCode = (TextView) findViewById(zipcode);
         EditText zipCodeText = (EditText) findViewById(R.id.zipcodeText);
 
         // Hide current location stuff
@@ -93,9 +122,18 @@ public class SettingsActivity extends AppCompatActivity {
         zipCode.setVisibility(View.VISIBLE);
         zipCodeText.setVisibility(View.VISIBLE);
 
+        if (ZIPCODE != null){
+            zipCodeText.setText(ZIPCODE);
+        }
+
         // Set variables so other activities know use custom location
         ((FindLocation) getApplicationContext()).setCurrent(false);
         ((FindLocation) getApplicationContext()).setCustom(true);
+
+        SharedPreferences.Editor editor = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE).edit();
+        editor.putBoolean(CURRENTSAVE, false);
+        editor.putBoolean(CUSTOMSAVE, true);
+        editor.commit();
     }
 
     /* Called when the user pressed the "Apply" button */
@@ -107,6 +145,9 @@ public class SettingsActivity extends AppCompatActivity {
         if (((FindLocation) getApplicationContext()).getCustom()){
             ZIPCODE = zipCodeText.getText().toString();
             ((FindLocation) getApplicationContext()).setZip(ZIPCODE);
+            SharedPreferences.Editor editor = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE).edit();
+            editor.putString(ZIPCODESAVE, ZIPCODE);
+            editor.commit();
         }
 
         // Go back to the Main Activity

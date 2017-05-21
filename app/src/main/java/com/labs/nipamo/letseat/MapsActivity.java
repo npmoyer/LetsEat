@@ -90,12 +90,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         String type = "restaurant";
 
         int distance = ((FindPlacesConfig) getApplicationContext()).getDistance();
+        String category = ((FindPlacesConfig) getApplicationContext()).getCategory();
 
         StringBuilder googlePlacesUrl =
                 new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
         googlePlacesUrl.append("location=").append(latitude).append(",").append(longitude);
         googlePlacesUrl.append("&radius=").append(distance);
         googlePlacesUrl.append("&types=").append(type);
+        if (category != null){
+            googlePlacesUrl.append("&keyword=").append(category);
+        }
         googlePlacesUrl.append("&sensor=true");
         googlePlacesUrl.append("&key=" + APIKEY);
 
