@@ -158,13 +158,7 @@ public class OptionsActivity extends AppCompatActivity {
         }
 
         String category = s2.getSelectedItem().toString();
-        switch (category){
-            case "Pizza":
-                ((FindPlacesConfig) getApplicationContext()).setCategory(category);
-                break;
-            default:
-                break;
-        }
+        ((FindPlacesConfig) getApplicationContext()).setCategory(category);
 
         SharedPreferences.Editor editor = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE).edit();
         editor.putInt(SPINNER1SAVE, s1.getSelectedItemPosition());
