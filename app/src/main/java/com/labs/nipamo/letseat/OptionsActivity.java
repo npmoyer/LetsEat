@@ -1,6 +1,8 @@
 package com.labs.nipamo.letseat;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +16,14 @@ import android.widget.Spinner;
 import static com.labs.nipamo.letseat.R.menu.other;
 
 public class OptionsActivity extends AppCompatActivity {
+
+    static final String SPINNER1SAVE = "s1Save";
+    static final String SPINNER2SAVE = "s2Save";
+    static final String SPINNER3SAVE = "s3Save";
+    static final String SPINNER4SAVE = "s4Save";
+    static final String PREFERENCES = "Prefs";
+
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +78,21 @@ public class OptionsActivity extends AppCompatActivity {
         ActionBar ab = getSupportActionBar();
         if (ab != null) {
             ab.setDisplayHomeAsUpEnabled(true);
+        }
+
+        // Restore the saved data
+        sharedPreferences = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
+        if (sharedPreferences != null){
+            int s1Save, s2Save, s3Save, s4Save;
+            s1Save = sharedPreferences.getInt(SPINNER1SAVE, 0);
+            s2Save = sharedPreferences.getInt(SPINNER2SAVE, 0);
+            s3Save = sharedPreferences.getInt(SPINNER3SAVE, 0);
+            s4Save = sharedPreferences.getInt(SPINNER4SAVE, 0);
+
+            spinner1.setSelection(s1Save);
+            spinner2.setSelection(s2Save);
+            spinner3.setSelection(s3Save);
+            spinner4.setSelection(s4Save);
         }
     }
 
@@ -140,5 +165,12 @@ public class OptionsActivity extends AppCompatActivity {
             default:
                 break;
         }
+
+        SharedPreferences.Editor editor = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE).edit();
+        editor.putInt(SPINNER1SAVE, s1.getSelectedItemPosition());
+        editor.putInt(SPINNER2SAVE, s2.getSelectedItemPosition());
+        editor.putInt(SPINNER3SAVE, s3.getSelectedItemPosition());
+        editor.putInt(SPINNER4SAVE, s4.getSelectedItemPosition());
+        editor.commit();
     }
 }

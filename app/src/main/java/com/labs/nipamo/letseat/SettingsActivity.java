@@ -23,7 +23,7 @@ public class SettingsActivity extends AppCompatActivity {
     static final String CURRENTSAVE = "currentSave";
     static final String CUSTOMSAVE = "customSave";
     static final String ZIPCODESAVE = "zipcodeSave";
-    public static final String PREFERENCES = "Prefs";
+    static final String PREFERENCES = "Prefs";
     public String ZIPCODE;
 
     SharedPreferences sharedPreferences;
@@ -43,8 +43,8 @@ public class SettingsActivity extends AppCompatActivity {
             ab.setDisplayHomeAsUpEnabled(true);
         }
 
+        // Restore the saved data
         sharedPreferences = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
-
         if (sharedPreferences != null){
             boolean customSave, currentSave;
             customSave = sharedPreferences.getBoolean(CUSTOMSAVE, false);
