@@ -16,6 +16,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,11 +49,11 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         // Set up the ad banner
-       /* AdView adView = (AdView) findViewById(R.id.adView);
+        AdView adView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder()
                 .setRequestAgent("android_studio:ad_template").build();
         adView.loadAd(adRequest);
-        */
+
         }
 
     @Override
@@ -157,12 +159,17 @@ public class MainActivity extends AppCompatActivity {
         String type = "restaurant";
 
         int distance = ((FindPlacesConfig) getApplicationContext()).getDistance();
+        String category = ((FindPlacesConfig) getApplicationContext()).getCategory();
+
 
         StringBuilder googlePlacesUrl =
                 new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
         googlePlacesUrl.append("location=").append(latitude).append(",").append(longitude);
         googlePlacesUrl.append("&radius=").append(distance);
         googlePlacesUrl.append("&types=").append(type);
+        if (category != null){
+            googlePlacesUrl.append("&keyword=").append(category);
+        }
         googlePlacesUrl.append("&sensor=true");
         googlePlacesUrl.append("&key=" + APIKEY);
 
