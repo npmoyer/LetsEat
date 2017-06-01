@@ -84,26 +84,17 @@ public class SettingsActivity extends AppCompatActivity {
         //Check for permission
         if (!loc.checkForPermission(SettingsActivity.this)) {
             // Permission is not granted so request it
-            while (!done) {
-                done = loc.promptForPermission(SettingsActivity.this);
-            }
+            loc.promptForPermission(SettingsActivity.this);
             // Check if user pressed Deny
-            if (!loc.checkForPermission(SettingsActivity.this)){
+            if (!loc.checkForPermission(SettingsActivity.this)) {
                 // Permission is denied :(
                 Toast toast = Toast.makeText(SettingsActivity.this,
                         "Allow permissions to use current location!", Toast.LENGTH_LONG);
                 toast.show();
-            }else {
-                // Set variables so other activities know use current location
-                ((FindLocation) getApplicationContext()).setCurrent(true);
-                ((FindLocation) getApplicationContext()).setCustom(false);
             }
-        }else{
-            // Set variables so other activities know use current location
-            ((FindLocation) getApplicationContext()).setCurrent(true);
-            ((FindLocation) getApplicationContext()).setCustom(false);
         }
 
+        // Set shared preferences
         SharedPreferences.Editor editor = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE).edit();
         editor.putBoolean(CURRENTSAVE, true);
         editor.putBoolean(CUSTOMSAVE, false);
@@ -126,10 +117,7 @@ public class SettingsActivity extends AppCompatActivity {
             zipCodeText.setText(ZIPCODE);
         }
 
-        // Set variables so other activities know use custom location
-        ((FindLocation) getApplicationContext()).setCurrent(false);
-        ((FindLocation) getApplicationContext()).setCustom(true);
-
+        // Set shared preferences
         SharedPreferences.Editor editor = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE).edit();
         editor.putBoolean(CURRENTSAVE, false);
         editor.putBoolean(CUSTOMSAVE, true);
@@ -141,8 +129,13 @@ public class SettingsActivity extends AppCompatActivity {
         // Set local variables
         EditText zipCodeText = (EditText) findViewById(R.id.zipcodeText);
 
-        // Check which option to apply
-        if (((FindLocation) getApplicationContext()).getCustom()){
+        // Restore the saved data
+        sharedPreferences = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
+        boolean customSave;
+        customSave = sharedPreferences.getBoolean(CUSTOMSAVE, false);
+
+        // Check if zipcode should be applied
+        if (customSave){
             ZIPCODE = zipCodeText.getText().toString();
             ((FindLocation) getApplicationContext()).setZip(ZIPCODE);
             SharedPreferences.Editor editor = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE).edit();

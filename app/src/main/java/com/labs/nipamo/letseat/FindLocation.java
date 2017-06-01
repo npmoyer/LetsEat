@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Criteria;
@@ -17,14 +18,18 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.util.List;
 
-public class FindLocation extends Application{
-    private int MY_PERMISSIONS_ACCESS_FINE_LOCATION = 100;
+import static com.labs.nipamo.letseat.SettingsActivity.CURRENTSAVE;
+import static com.labs.nipamo.letseat.SettingsActivity.CUSTOMSAVE;
+import static com.labs.nipamo.letseat.SettingsActivity.PREFERENCES;
 
-    private boolean useCurrent = false;
-    private boolean useCustom = false;
+public class FindLocation extends Application{
+
+    private int MY_PERMISSIONS_ACCESS_FINE_LOCATION = 100;
     private double latitude;
     private double longitude;
     private String zip;
+
+    SharedPreferences sharedPreferences;
 
     public boolean checkForPermission(Context context){
         if (ContextCompat.checkSelfPermission(context,
@@ -43,8 +48,15 @@ public class FindLocation extends Application{
     }
 
     public void setLocation() {
+        // Restore the saved data
+        sharedPreferences = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
+        boolean customSave, currentSave;
+        customSave = sharedPreferences.getBoolean(CUSTOMSAVE, false);
+        currentSave = sharedPreferences.getBoolean(CURRENTSAVE, false);
+
+
         // Check if the user selected current or custom location
-        if (useCurrent) {
+        if (currentSave) {
             // Getting LocationManager object from System Service LOCATION_SERVICE
             LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
@@ -63,7 +75,7 @@ public class FindLocation extends Application{
                 // Set longitude of the current location
                 this.longitude = location.getLongitude();
             }
-            }else if(useCustom) {
+            }else if(customSave) {
             try {
                 Geocoder geocoder = new Geocoder(this);
                 List<Address> addresses = geocoder.getFromLocationName(zip, 1);
@@ -82,22 +94,6 @@ public class FindLocation extends Application{
                 Toast.makeText(this, "Error parsing zipcode", Toast.LENGTH_LONG).show();
             }
         }
-    }
-
-    public void setCurrent(boolean x){
-        this.useCurrent = x;
-    }
-
-    public void setCustom(boolean x){
-        this.useCustom = x;
-    }
-
-    public boolean getCurrent(){
-        return this.useCurrent;
-    }
-
-    public boolean getCustom(){
-        return this.useCustom;
     }
 
     public double getLatitude(){

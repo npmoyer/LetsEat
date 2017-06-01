@@ -1,6 +1,8 @@
 package com.labs.nipamo.letseat;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -16,8 +18,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,10 +34,11 @@ import static com.labs.nipamo.letseat.FindPlacesConfig.RESULTS;
 import static com.labs.nipamo.letseat.FindPlacesConfig.STATUS;
 import static com.labs.nipamo.letseat.FindPlacesConfig.VICINITY;
 import static com.labs.nipamo.letseat.FindPlacesConfig.ZERO_RESULTS;
+import static com.labs.nipamo.letseat.SettingsActivity.PREFERENCES;
 
 public class MainActivity extends AppCompatActivity {
 
-    private String name;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,12 +49,13 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        /*
         // Set up the ad banner
         AdView adView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder()
                 .setRequestAgent("android_studio:ad_template").build();
         adView.loadAd(adRequest);
-
+        */
         }
 
     @Override
@@ -90,9 +92,11 @@ public class MainActivity extends AppCompatActivity {
 
     /* Called when the user taps the "Show Map" button */
     public void viewMap(View view){
+        // Restore the saved data
+        sharedPreferences = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
+
         // Check if the user selected a location setting
-       if (((FindLocation) getApplicationContext()).getCurrent() ||
-               ((FindLocation) getApplicationContext()).getCustom()){
+       if (sharedPreferences != null){
             // Start the Maps Activity
             Intent intent = new Intent(this, MapsActivity.class);
             startActivity(intent);
@@ -101,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
            Intent intent = new Intent (this, SettingsActivity.class);
            startActivity(intent);
            Toast toast = Toast.makeText(MainActivity.this,
-                   "Configure location settings first", Toast.LENGTH_LONG);
+                   "Error: Location settings are not configured", Toast.LENGTH_LONG);
            toast.show();
        }
     }
@@ -118,10 +122,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public String getName(){
-        return this.name;
-    }
-
     /* Called when the user taps the "Let's Eat" button */
     public void letsEat(View view){
         TextView result = (TextView) findViewById(R.id.result);
@@ -129,9 +129,11 @@ public class MainActivity extends AppCompatActivity {
         double latitude;
         double longitude;
 
+        // Restore the saved data
+        sharedPreferences = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
+
         // Check if the user selected a location setting
-        if (((FindLocation) getApplicationContext()).getCurrent() ||
-                ((FindLocation) getApplicationContext()).getCustom()){
+        if (sharedPreferences != null){
             // Use FindLocation to get the latitude and longitude
             ((FindLocation) getApplicationContext()).setLocation();
             latitude = ((FindLocation) getApplicationContext()).getLatitude();
@@ -139,25 +141,29 @@ public class MainActivity extends AppCompatActivity {
             loadNearbyPlaces(latitude, longitude);
 
             // Display the result
-            if (this.name != null){
-                loadNearbyPlaces(latitude, longitude);
-                result.setText(this.name);
+            String name = ((FindPlaces) getApplicationContext()).getName();
+            if (name != null){
+                result.setText(name);
                 result.setVisibility(View.VISIBLE);
                 details.setVisibility(View.VISIBLE);
+            }else{
+                Toast toast = Toast.makeText(MainActivity.this,
+                        "Error: No name is null", Toast.LENGTH_LONG);
+                toast.show();
             }
         } else{
             // Go to the settings activity so the user can enter location setting
             Intent intent = new Intent (this, SettingsActivity.class);
             startActivity(intent);
             Toast toast = Toast.makeText(MainActivity.this,
-                    "Configure location settings first", Toast.LENGTH_LONG);
+                    "Error: Location settings are not configured", Toast.LENGTH_LONG);
             toast.show();
         }
     }
 
     private void loadNearbyPlaces(double latitude, double longitude){
+        // Set up local variables
         String type = "restaurant";
-
         int distance = ((FindPlacesConfig) getApplicationContext()).getDistance();
         String category = ((FindPlacesConfig) getApplicationContext()).getCategory();
 
@@ -185,15 +191,16 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Toast toast = Toast.makeText(MainActivity.this,
-                                "Something went wrong", Toast.LENGTH_LONG);
+                                "Error: No response from server", Toast.LENGTH_LONG);
                         toast.show();
                     }
                 });
+
         FindPlaces.getInstance().addToRequestQueue(request);
     }
 
     private void parseLocationResult(JSONObject result) {
-
+        // Set up local variables
         String placeName, placeLocation, placeRating, placePrice;
         Random rand = new Random();
 
@@ -222,15 +229,14 @@ public class MainActivity extends AppCompatActivity {
                     }else{
                         placePrice = "?";
                     }
-                    this.name = placeName;
                     ((FindPlaces) getApplicationContext()).setAll(placeName, placeLocation, placeRating, placePrice);
                 }
             } else if (result.getString(STATUS).equalsIgnoreCase(ZERO_RESULTS)) {
-                Toast.makeText(getBaseContext(), "No Restaurants found in 5KM radius!",
+                Toast.makeText(getBaseContext(), "Error: No matching restaurants were found",
                         Toast.LENGTH_LONG).show();
             }
         } catch (JSONException e) {
-            Toast.makeText(getBaseContext(), "Parsing error",
+            Toast.makeText(getBaseContext(), "Error: Cannot parse response",
                     Toast.LENGTH_LONG).show();
         }
     }
