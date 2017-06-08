@@ -230,8 +230,17 @@ public class MainActivity extends AppCompatActivity {
 
                 if (result.getString(STATUS).equalsIgnoreCase(OK)) {
                     // Pick a random place
-                    int i = rand.nextInt(jsonArray.length());
-
+                    int i = MainActivity.this.prev;
+                    if (jsonArray.length() == 1){
+                        // Only one result
+                        Toast.makeText(getBaseContext(), "Not other restaurant found",
+                                Toast.LENGTH_LONG).show();
+                    }else {
+                        while (i == MainActivity.this.prev) {
+                            i = rand.nextInt(jsonArray.length());
+                        }
+                    }
+                    MainActivity.this.prev = i;
                     JSONObject place = jsonArray.getJSONObject(i);
                     if (!place.isNull(NAME)) {
                         placeName = place.getString(NAME);
