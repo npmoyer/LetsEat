@@ -160,6 +160,12 @@ public class OptionsActivity extends AppCompatActivity {
         String category = s2.getSelectedItem().toString();
         ((FindPlacesConfig) getApplicationContext()).setCategory(category);
 
+        String rating = s3.getSelectedItem().toString();
+        ((FindPlacesConfig) getApplicationContext()).setRating(rating);
+
+        String price = s4.getSelectedItem().toString();
+        ((FindPlacesConfig) getApplicationContext()).setRating(price);
+
         SharedPreferences.Editor editor = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE).edit();
         editor.putInt(SPINNER1SAVE, s1.getSelectedItemPosition());
         editor.putInt(SPINNER2SAVE, s2.getSelectedItemPosition());

@@ -159,8 +159,14 @@ public class MainActivity extends AppCompatActivity {
     private void loadNearbyPlaces(double latitude, double longitude){
         // Set up local variables
         String type = "restaurant";
-        int distance = ((FindPlacesConfig) getApplicationContext()).getDistance();
-        String category = ((FindPlacesConfig) getApplicationContext()).getCategory();
+        int distance;
+        String category, rating, price;
+
+        distance = ((FindPlacesConfig) getApplicationContext()).getDistance();
+        category = ((FindPlacesConfig) getApplicationContext()).getCategory();
+        rating = ((FindPlacesConfig) getApplicationContext()).getRating();
+        price = ((FindPlacesConfig) getApplicationContext()).getPrice();
+
 
         StringBuilder googlePlacesUrl =
                 new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");

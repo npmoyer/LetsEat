@@ -28,7 +28,7 @@ public class FindPlacesConfig extends FindPlaces{
     public static final String PAGE = "next_page_token";
 
     private int distance;
-    private String category;
+    private String category, rating, price;
 
     public void setDistance(int dist) {
         this.distance = dist;
@@ -36,6 +36,14 @@ public class FindPlacesConfig extends FindPlaces{
 
     public void setCategory(String cat){
         this.category = cat;
+    }
+
+    public void setRating (String rat){
+        this.rating = rat;
+    }
+
+    public void setPrice (String pri){
+        this.price = pri;
     }
 
     public int getDistance(){
@@ -48,5 +56,13 @@ public class FindPlacesConfig extends FindPlaces{
 
     public String getCategory(){
         return this.category;
+    }
+
+    public String getRating(){
+        return this.rating;
+    }
+
+    public String getPrice(){
+        return this.price;
     }
 }
