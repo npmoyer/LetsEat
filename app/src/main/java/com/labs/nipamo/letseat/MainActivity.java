@@ -3,6 +3,7 @@ package com.labs.nipamo.letseat;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -37,6 +38,9 @@ import static com.labs.nipamo.letseat.FindPlacesConfig.ZERO_RESULTS;
 import static com.labs.nipamo.letseat.SettingsActivity.PREFERENCES;
 
 public class MainActivity extends AppCompatActivity {
+
+    private String url;
+    private int prev;
 
     SharedPreferences sharedPreferences;
 
@@ -124,8 +128,6 @@ public class MainActivity extends AppCompatActivity {
 
     /* Called when the user taps the "Let's Eat" button */
     public void letsEat(View view){
-        TextView result = (TextView) findViewById(R.id.result);
-        Button details = (Button) findViewById(R.id.details_button);
         double latitude;
         double longitude;
 
@@ -138,19 +140,11 @@ public class MainActivity extends AppCompatActivity {
             ((FindLocation) getApplicationContext()).setLocation();
             latitude = ((FindLocation) getApplicationContext()).getLatitude();
             longitude = ((FindLocation) getApplicationContext()).getLongitude();
-            loadNearbyPlaces(latitude, longitude);
 
-            // Display the result
-            String name = ((FindPlaces) getApplicationContext()).getName();
-            if (name != null){
-                result.setText(name);
-                result.setVisibility(View.VISIBLE);
-                details.setVisibility(View.VISIBLE);
-            }else{
-                Toast toast = Toast.makeText(MainActivity.this,
-                        "Error: No name is null", Toast.LENGTH_LONG);
-                toast.show();
-            }
+            // Create the url and execute the async task
+            loadNearbyPlaces(latitude, longitude);
+            JSONTaskMain json = new JSONTaskMain();
+            json.execute();
         } else{
             // Go to the settings activity so the user can enter location setting
             Intent intent = new Intent (this, SettingsActivity.class);
@@ -161,12 +155,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /* Creates a url to be passed to the async task */
     private void loadNearbyPlaces(double latitude, double longitude){
         // Set up local variables
         String type = "restaurant";
         int distance = ((FindPlacesConfig) getApplicationContext()).getDistance();
         String category = ((FindPlacesConfig) getApplicationContext()).getCategory();
-
 
         StringBuilder googlePlacesUrl =
                 new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
@@ -179,65 +173,94 @@ public class MainActivity extends AppCompatActivity {
         googlePlacesUrl.append("&sensor=true");
         googlePlacesUrl.append("&key=" + APIKEY);
 
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
-                googlePlacesUrl.toString(), (String)null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject result) {
-                       parseLocationResult(result);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast toast = Toast.makeText(MainActivity.this,
-                                "Error: No response from server", Toast.LENGTH_LONG);
-                        toast.show();
-                    }
-                });
-
-        FindPlaces.getInstance().addToRequestQueue(request);
+        this.url = googlePlacesUrl.toString();
     }
 
-    private void parseLocationResult(JSONObject result) {
-        // Set up local variables
-        String placeName, placeLocation, placeRating, placePrice;
-        Random rand = new Random();
+    /* Async task for getting the JSON result */
+    private class JSONTaskMain extends AsyncTask<Void, Void, String> {
+        @Override
+        protected String doInBackground(Void... params) {
+            String googlePlacesUrl = MainActivity.this.url;
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
+                    googlePlacesUrl, (String) null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject result) {
+                            parseLocationResult(result);
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(getBaseContext(), "Error: No response",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
+            FindPlaces.getInstance().addToRequestQueue(request);
+            return "Executed";
+        }
 
-        try {
-            JSONArray jsonArray = result.getJSONArray(RESULTS);
+        @Override
+        protected void onPostExecute(String status) {
+            // Set up the local variables
+            TextView result = (TextView) findViewById(R.id.result);
+            Button details = (Button) findViewById(R.id.details_button);
 
-            if (result.getString(STATUS).equalsIgnoreCase(OK)) {
-                // Pick a random place
-                int i = rand.nextInt(jsonArray.length() - 1);
-                JSONObject place = jsonArray.getJSONObject(i);
-                if (!place.isNull(NAME)) {
-                    placeName = place.getString(NAME);
-                    if (place.has(VICINITY)) {
-                        placeLocation = place.getString(VICINITY);
-                    }else{
-                        placeLocation = "?";
-                    }
-                    if (place.has(RATING)){
-                        placeRating = place.getString(RATING);
-                    }else{
-                        placeRating = "?";
-                    }
-                    if (place.has(PRICE)){
-                        placePrice = place.getString(PRICE);
+            // Display the result
+            String name = ((FindPlaces) getApplicationContext()).getName();
+            if (name != null){
+                result.setText(name);
+                result.setVisibility(View.VISIBLE);
+                details.setVisibility(View.VISIBLE);
+            }else{
+                Toast toast = Toast.makeText(MainActivity.this,
+                        "Error: Name is null", Toast.LENGTH_LONG);
+                toast.show();
+            }
+        }
 
-                    }else{
-                        placePrice = "?";
+        /* Get the place name, location, rating and price */
+        private void parseLocationResult(JSONObject result) {
+            // Set up local variables
+            String placeName, placeLocation, placeRating, placePrice;
+            Random rand = new Random();
+
+            try {
+                JSONArray jsonArray = result.getJSONArray(RESULTS);
+
+                if (result.getString(STATUS).equalsIgnoreCase(OK)) {
+                    // Pick a random place
+                    int i = rand.nextInt(jsonArray.length());
+
+                    JSONObject place = jsonArray.getJSONObject(i);
+                    if (!place.isNull(NAME)) {
+                        placeName = place.getString(NAME);
+                        if (place.has(VICINITY)) {
+                            placeLocation = place.getString(VICINITY);
+                        }else{
+                            placeLocation = "?";
+                        }
+                        if (place.has(RATING)){
+                            placeRating = place.getString(RATING);
+                        }else{
+                            placeRating = "?";
+                        }
+                        if (place.has(PRICE)){
+                            placePrice = place.getString(PRICE);
+
+                        }else{
+                            placePrice = "?";
+                        }
+                        ((FindPlaces) getApplicationContext()).setAll(placeName,placeLocation,placeRating,placePrice);
                     }
-                    ((FindPlaces) getApplicationContext()).setAll(placeName, placeLocation, placeRating, placePrice);
+                } else if (result.getString(STATUS).equalsIgnoreCase(ZERO_RESULTS)) {
+                    Toast.makeText(getBaseContext(), "Error: No matching restaurants found",
+                            Toast.LENGTH_LONG).show();
                 }
-            } else if (result.getString(STATUS).equalsIgnoreCase(ZERO_RESULTS)) {
-                Toast.makeText(getBaseContext(), "Error: No matching restaurants were found",
+            } catch (JSONException e) {
+                Toast.makeText(getBaseContext(), "Error: Cannot parse response",
                         Toast.LENGTH_LONG).show();
             }
-        } catch (JSONException e) {
-            Toast.makeText(getBaseContext(), "Error: Cannot parse response",
-                    Toast.LENGTH_LONG).show();
         }
     }
 }
