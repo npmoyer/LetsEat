@@ -1,6 +1,10 @@
 package com.labs.nipamo.letseat;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
@@ -32,11 +36,14 @@ import static com.labs.nipamo.letseat.FindPlacesConfig.OK;
 import static com.labs.nipamo.letseat.FindPlacesConfig.STATUS;
 import static com.labs.nipamo.letseat.FindPlacesConfig.ZERO_RESULTS;
 import static com.labs.nipamo.letseat.R.id.map;
+import static com.labs.nipamo.letseat.SettingsActivity.PREFERENCES;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private LatLng myPosition;
+    private String url;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,31 +73,53 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Enabling MyLocation Layer of Google Map
         mMap.setMyLocationEnabled(true);
 
-        // Use FindLocation to get the latitude and longitude
-        ((FindLocation) getApplicationContext()).setLocation();
-        latitude = ((FindLocation) getApplicationContext()).getLatitude();
-        longitude = ((FindLocation) getApplicationContext()).getLongitude();
+        // Restore the saved data
+        sharedPreferences = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
 
-        // Add a marker in to the user's current location and move the camera
-        myPosition = new LatLng(latitude, longitude);
-        googleMap.addMarker(new MarkerOptions().position(myPosition).title("Current Location"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(myPosition));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(13.0f), 5000, null);
+        // Check if the user selected a location setting
+        if (sharedPreferences != null){
+            // Use FindLocation to get the latitude and longitude
+            ((FindLocation) getApplicationContext()).setLocation();
+            latitude = ((FindLocation) getApplicationContext()).getLatitude();
+            longitude = ((FindLocation) getApplicationContext()).getLongitude();
 
-        // Draw a circle on the map
-        int radius = ((FindPlacesConfig) getApplicationContext()).getDistance();
-        Circle circle = mMap.addCircle(new CircleOptions()
-                        .center(myPosition)
-                        .radius(radius)
-                        .strokeColor(Color.RED));
-        loadNearbyPlaces(latitude, longitude);
+            // Create the url and execute the async task
+            loadNearbyPlaces(latitude, longitude);
+            JSONTaskMaps json = new JSONTaskMaps();
+            json.execute();
+
+            // Add a marker in to the user's current location and move the camera
+            myPosition = new LatLng(latitude, longitude);
+            googleMap.addMarker(new MarkerOptions().position(myPosition).title("Current Location"));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(myPosition));
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(13.0f), 5000, null);
+
+            // Draw a circle on the map
+            int radius = ((FindPlacesConfig) getApplicationContext()).getDistance();
+            Circle circle = mMap.addCircle(new CircleOptions()
+                    .center(myPosition)
+                    .radius(radius)
+                    .strokeColor(Color.RED));
+        } else{
+            // Go to the settings activity so the user can enter location setting
+            Intent intent = new Intent (this, SettingsActivity.class);
+            startActivity(intent);
+            Toast toast = Toast.makeText(MapsActivity.this,
+                    "Error: Location settings are not configured", Toast.LENGTH_LONG);
+            toast.show();
+        }
     }
 
     private void loadNearbyPlaces(double latitude, double longitude) {
+        // Set up local variables
         String type = "restaurant";
+        int distance;
+        String category, rating, price;
 
-        int distance = ((FindPlacesConfig) getApplicationContext()).getDistance();
-        String category = ((FindPlacesConfig) getApplicationContext()).getCategory();
+        distance = ((FindPlacesConfig) getApplicationContext()).getDistance();
+        category = ((FindPlacesConfig) getApplicationContext()).getCategory();
+        rating = ((FindPlacesConfig) getApplicationContext()).getRating();
+        price = ((FindPlacesConfig) getApplicationContext()).getPrice();
 
         StringBuilder googlePlacesUrl =
                 new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
@@ -103,62 +132,69 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         googlePlacesUrl.append("&sensor=true");
         googlePlacesUrl.append("&key=" + APIKEY);
 
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
-                googlePlacesUrl.toString(), (String) null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject result) {
-                        parseLocationResult(result);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast toast = Toast.makeText(MapsActivity.this,
-                                "Something went wrong", Toast.LENGTH_LONG);
-                        toast.show();
-                    }
-                });
-
-        FindPlaces.getInstance().addToRequestQueue(request);
+        this.url = googlePlacesUrl.toString();
     }
 
-    private void parseLocationResult(JSONObject result) {
+    /* Async task for getting the JSON result */
+    private class JSONTaskMaps extends AsyncTask<Void, Void, String> {
+        @Override
+        protected String doInBackground(Void... params) {
+            String googlePlacesUrl = MapsActivity.this.url;
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
+                    googlePlacesUrl, (String) null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject result) {
+                            parseLocationResult(result);
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(getBaseContext(), "Error: No response",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
+            FindPlaces.getInstance().addToRequestQueue(request);
+            return "Executed";
+        }
 
-        String placeName = null;
-        double latitude, longitude;
+        /* Get the place name, location, rating and price */
+        private void parseLocationResult(JSONObject result) {
+            String placeName = null;
+            double latitude, longitude;
 
-        try {
-            JSONArray jsonArray = result.getJSONArray("results");
+            try {
+                JSONArray jsonArray = result.getJSONArray("results");
 
-            if (result.getString(STATUS).equalsIgnoreCase(OK)) {
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject place = jsonArray.getJSONObject(i);
-                    if (!place.isNull(NAME)) {
-                        placeName = place.getString(NAME);
+                if (result.getString(STATUS).equalsIgnoreCase(OK)) {
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject place = jsonArray.getJSONObject(i);
+                        if (!place.isNull(NAME)) {
+                            placeName = place.getString(NAME);
+                        }
+                        latitude = place.getJSONObject(GEOMETRY).getJSONObject(LOCATION)
+                                .getDouble(LATITUDE);
+                        longitude = place.getJSONObject(GEOMETRY).getJSONObject(LOCATION)
+                                .getDouble(LONGITUDE);
+
+                        MarkerOptions markerOptions = new MarkerOptions();
+                        LatLng latLng = new LatLng(latitude, longitude);
+                        markerOptions.position(latLng);
+                        markerOptions.title(placeName);
+                        mMap.addMarker(markerOptions);
                     }
-                    latitude = place.getJSONObject(GEOMETRY).getJSONObject(LOCATION)
-                            .getDouble(LATITUDE);
-                    longitude = place.getJSONObject(GEOMETRY).getJSONObject(LOCATION)
-                            .getDouble(LONGITUDE);
 
-                    MarkerOptions markerOptions = new MarkerOptions();
-                    LatLng latLng = new LatLng(latitude, longitude);
-                    markerOptions.position(latLng);
-                    markerOptions.title(placeName);
-                    mMap.addMarker(markerOptions);
-                }
-
-                Toast.makeText(getBaseContext(), jsonArray.length() + " Restaurants found!",
-                        Toast.LENGTH_LONG).show();
-            } else if (result.getString(STATUS).equalsIgnoreCase(ZERO_RESULTS)) {
-                Toast.makeText(getBaseContext(), "No Restaurants found in 5KM radius!!!",
-                        Toast.LENGTH_LONG).show();
+                    Toast.makeText(getBaseContext(), jsonArray.length() + " Restaurants found!",
+                            Toast.LENGTH_LONG).show();
+                } else if (result.getString(STATUS).equalsIgnoreCase(ZERO_RESULTS)) {
+                    Toast.makeText(getBaseContext(), "Error: No matching restaurants found",
+                            Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+                    Toast.makeText(getBaseContext(), "Error: Cannot parse response",
+                            Toast.LENGTH_LONG).show();
             }
-        } catch (JSONException e) {
-            Toast toast = Toast.makeText(MapsActivity.this,
-                    "Something went wrong", Toast.LENGTH_LONG);
-            toast.show();
         }
     }
 }
