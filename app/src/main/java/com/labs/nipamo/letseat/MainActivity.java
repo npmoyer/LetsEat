@@ -131,10 +131,9 @@ public class MainActivity extends AppCompatActivity {
         double latitude;
         double longitude;
 
-        // Restore the saved data
+        // Check if the user selected a location setting
         sharedPreferences = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
 
-        // Check if the user selected a location setting
         if (sharedPreferences != null){
             // Use FindLocation to get the latitude and longitude
             ((FindLocation) getApplicationContext()).setLocation();
@@ -213,15 +212,11 @@ public class MainActivity extends AppCompatActivity {
             Button details = (Button) findViewById(R.id.details_button);
 
             // Display the result
-            String name = ((FindPlaces) getApplicationContext()).getName();
+            String name = ((FindPlaces) getApplicationContext()).getNameText();
             if (name != null){
                 result.setText(name);
                 result.setVisibility(View.VISIBLE);
                 details.setVisibility(View.VISIBLE);
-            }else{
-                Toast toast = Toast.makeText(MainActivity.this,
-                        "Error: Name is null", Toast.LENGTH_LONG);
-                toast.show();
             }
         }
 

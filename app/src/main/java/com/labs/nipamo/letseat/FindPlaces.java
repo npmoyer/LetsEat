@@ -39,19 +39,19 @@ public class FindPlaces extends FindLocation {
         this.price = price;
     }
 
-    public String getName(){
+    public String getNameText(){
         return this.name;
     }
 
-    public String getLocation(){
+    public String getLocationText(){
         return this.location;
     }
 
-    public String getRating(){
+    public String getRatingText(){
         return this.rating;
     }
 
-    public String getPrice(){
+    public String getPriceText(){
         return this.price;
     }
 

@@ -31,10 +31,10 @@ public class DetailsActivity extends AppCompatActivity {
 
         String name, location, rating, price;
 
-        name = ((FindPlaces) getApplicationContext()).getName();
-        location = ((FindPlaces) getApplicationContext()).getLocation();
-        rating = ((FindPlaces) getApplicationContext()).getRating();
-        price = ((FindPlaces) getApplicationContext()).getPrice();
+        name = ((FindPlaces) getApplicationContext()).getNameText();
+        location = ((FindPlaces) getApplicationContext()).getLocationText();
+        rating = ((FindPlaces) getApplicationContext()).getRatingText();
+        price = ((FindPlaces) getApplicationContext()).getPriceText();
         rating = rating + "/5";
         price = price + "/4";
 
