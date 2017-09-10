@@ -79,7 +79,6 @@ public class SettingsActivity extends AppCompatActivity {
         zipCodeText.setVisibility(View.INVISIBLE);
 
         FindLocation loc = new FindLocation();
-        boolean done = false;
 
         //Check for permission
         if (!loc.checkForPermission(SettingsActivity.this)) {

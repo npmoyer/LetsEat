@@ -52,7 +52,7 @@ public class FindLocation extends Application{
         sharedPreferences = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
         boolean customSave, currentSave;
         customSave = sharedPreferences.getBoolean(CUSTOMSAVE, false);
-        currentSave = sharedPreferences.getBoolean(CURRENTSAVE, false);
+        currentSave = sharedPreferences.getBoolean(CURRENTSAVE, true);
 
 
         // Check if the user selected current or custom location

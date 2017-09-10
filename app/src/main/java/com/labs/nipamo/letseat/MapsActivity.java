@@ -91,8 +91,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             // Add a marker in to the user's current location and move the camera
             myPosition = new LatLng(latitude, longitude);
             googleMap.addMarker(new MarkerOptions().position(myPosition).title("Current Location"));
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(myPosition));
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(13.0f), 5000, null);
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myPosition, 14));
 
             // Draw a circle on the map
             int radius = ((FindPlacesConfig) getApplicationContext()).getDistance();

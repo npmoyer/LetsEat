@@ -19,6 +19,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,6 +37,8 @@ import static com.labs.nipamo.letseat.FindPlacesConfig.RESULTS;
 import static com.labs.nipamo.letseat.FindPlacesConfig.STATUS;
 import static com.labs.nipamo.letseat.FindPlacesConfig.VICINITY;
 import static com.labs.nipamo.letseat.FindPlacesConfig.ZERO_RESULTS;
+import static com.labs.nipamo.letseat.SettingsActivity.CURRENTSAVE;
+import static com.labs.nipamo.letseat.SettingsActivity.CUSTOMSAVE;
 import static com.labs.nipamo.letseat.SettingsActivity.PREFERENCES;
 
 public class MainActivity extends AppCompatActivity {
@@ -53,13 +57,11 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        /*
         // Set up the ad banner
         AdView adView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder()
                 .setRequestAgent("android_studio:ad_template").build();
         adView.loadAd(adRequest);
-        */
         }
 
     @Override
@@ -99,19 +101,28 @@ public class MainActivity extends AppCompatActivity {
         // Restore the saved data
         sharedPreferences = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
 
-        // Check if the user selected a location setting
-       if (sharedPreferences != null){
+        if (!sharedPreferences.getBoolean(CUSTOMSAVE, false)) {
+            FindLocation loc = new FindLocation();
+
+            //Check for permission
+            if (!loc.checkForPermission(MainActivity.this)) {
+                // Permission is not granted so request it
+                loc.promptForPermission(MainActivity.this);
+
+                // Save in shared preferences
+                SharedPreferences.Editor editor = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE).edit();
+                editor.putBoolean(CURRENTSAVE, true);
+                editor.commit();
+            } else {
+                // Start the Maps Activity
+                Intent intent = new Intent(this, MapsActivity.class);
+                startActivity(intent);
+            }
+        }else{
             // Start the Maps Activity
             Intent intent = new Intent(this, MapsActivity.class);
             startActivity(intent);
-        } else{
-           // Go to the settings activity so the user can enter location setting
-           Intent intent = new Intent (this, SettingsActivity.class);
-           startActivity(intent);
-           Toast toast = Toast.makeText(MainActivity.this,
-                   "Error: Location settings are not configured", Toast.LENGTH_LONG);
-           toast.show();
-       }
+        }
     }
 
     /* Called when the user taps the "View List" button */
@@ -131,10 +142,42 @@ public class MainActivity extends AppCompatActivity {
         double latitude;
         double longitude;
 
-        // Check if the user selected a location setting
+        // Set up shared preferences
         sharedPreferences = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
 
-        if (sharedPreferences != null){
+        // Check if user selected a custom location
+        if (!sharedPreferences.getBoolean(CUSTOMSAVE, false)){
+            Toast toast = Toast.makeText(MainActivity.this,
+                    "Using current location", Toast.LENGTH_LONG);
+            toast.show();
+
+            FindLocation loc = new FindLocation();
+
+            //Check for permission
+            if (!loc.checkForPermission(MainActivity.this)) {
+                // Permission is not granted so request it
+                loc.promptForPermission(MainActivity.this);
+
+                // Save in shared preferences
+                SharedPreferences.Editor editor = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE).edit();
+                editor.putBoolean(CURRENTSAVE, true);
+                editor.commit();
+            }else{
+                // Use FindLocation to get the latitude and longitude
+                ((FindLocation) getApplicationContext()).setLocation();
+                latitude = ((FindLocation) getApplicationContext()).getLatitude();
+                longitude = ((FindLocation) getApplicationContext()).getLongitude();
+
+                // Create the url and execute the async task
+                loadNearbyPlaces(latitude, longitude);
+                JSONTaskMain json = new JSONTaskMain();
+                json.execute();
+            }
+        }else {
+            Toast toast = Toast.makeText(MainActivity.this,
+                    "Using custom location", Toast.LENGTH_LONG);
+            toast.show();
+
             // Use FindLocation to get the latitude and longitude
             ((FindLocation) getApplicationContext()).setLocation();
             latitude = ((FindLocation) getApplicationContext()).getLatitude();
@@ -144,13 +187,6 @@ public class MainActivity extends AppCompatActivity {
             loadNearbyPlaces(latitude, longitude);
             JSONTaskMain json = new JSONTaskMain();
             json.execute();
-        } else{
-            // Go to the settings activity so the user can enter location setting
-            Intent intent = new Intent (this, SettingsActivity.class);
-            startActivity(intent);
-            Toast toast = Toast.makeText(MainActivity.this,
-                    "Error: Location settings are not configured", Toast.LENGTH_LONG);
-            toast.show();
         }
     }
 
