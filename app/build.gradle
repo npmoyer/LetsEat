@@ -7,8 +7,8 @@ android {
         applicationId "com.labs.nipamo.letseat"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 8
-        versionName "1.1.5"
+        versionCode 9
+        versionName "1.1.6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -27,11 +27,11 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.google.android.gms:play-services-maps:10.2.4'
+    compile 'com.google.android.gms:play-services-maps:11.0.4'
     compile 'com.android.support:support-v4:25.3.1'
     compile 'com.android.support:support-vector-drawable:25.3.1'
     compile 'com.android.support:design:25.3.1'
     compile 'com.mcxiaoke.volley:library:1.0.19'
-    compile 'com.google.android.gms:play-services-ads:10.2.4'
+    compile 'com.google.android.gms:play-services-ads:11.0.4'
     testCompile 'junit:junit:4.12'
 }

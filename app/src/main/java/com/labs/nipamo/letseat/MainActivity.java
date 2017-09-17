@@ -243,17 +243,6 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String status) {
-            // Set up the local variables
-            TextView result = (TextView) findViewById(R.id.result);
-            Button details = (Button) findViewById(R.id.details_button);
-
-            // Display the result
-            String name = ((FindPlaces) getApplicationContext()).getNameText();
-            if (name != null){
-                result.setText(name);
-                result.setVisibility(View.VISIBLE);
-                details.setVisibility(View.VISIBLE);
-            }
         }
 
         /* Get the place name, location, rating and price */
@@ -298,6 +287,18 @@ public class MainActivity extends AppCompatActivity {
                             placePrice = "?";
                         }
                         ((FindPlaces) getApplicationContext()).setAll(placeName,placeLocation,placeRating,placePrice);
+
+                        // Set up the local variables
+                        TextView resultText = (TextView) findViewById(R.id.result);
+                        Button details = (Button) findViewById(R.id.details_button);
+
+                        // Display the result
+                        if (placeName != null){
+                            resultText.setText(placeName);
+                            resultText.setVisibility(View.VISIBLE);
+                            details.setVisibility(View.VISIBLE);
+                        }
+
                     }
                 } else if (result.getString(STATUS).equalsIgnoreCase(ZERO_RESULTS)) {
                     Toast.makeText(getBaseContext(), "Error: No matching restaurants found",
