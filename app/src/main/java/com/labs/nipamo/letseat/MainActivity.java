@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,6 +22,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,8 +45,9 @@ import static com.labs.nipamo.letseat.SettingsActivity.PREFERENCES;
 
 public class MainActivity extends AppCompatActivity {
 
-    private String url;
-    private int prev;
+    private String url, int_id = "ca-app-pub-8326478359549506/5420381404";
+    private int prev, count;
+    private InterstitialAd interstitial;
 
     SharedPreferences sharedPreferences;
 
@@ -62,7 +65,13 @@ public class MainActivity extends AppCompatActivity {
         AdRequest adRequest = new AdRequest.Builder()
                 .setRequestAgent("android_studio:ad_template").build();
         adView.loadAd(adRequest);
-        }
+
+        // Set up the interstitial ad
+        count = 0;
+        interstitial = new InterstitialAd(this);
+        interstitial.setAdUnitId(int_id);
+        interstitial.loadAd(new AdRequest.Builder().build());
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -96,8 +105,29 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /* Called when the user taps the 4 main buttons
+       Displays an ad if loaded and increments the counter */
+    private void interstitialAd(){
+        // Show interstitial ad
+        if (interstitial.isLoaded()) {
+            interstitial.show();
+        } else {
+            Log.d("TAG", "The interstitial wasn't loaded yet.");
+        }
+
+        // Increment the counter
+        count++;
+
+        // Load a new ad every 7 clicks
+        if (count % 7 == 0){
+            interstitial.loadAd(new AdRequest.Builder().build());
+        }
+    }
+
     /* Called when the user taps the "Show Map" button */
     public void viewMap(View view){
+        interstitialAd();
+
         // Restore the saved data
         sharedPreferences = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
 
@@ -127,12 +157,16 @@ public class MainActivity extends AppCompatActivity {
 
     /* Called when the user taps the "View List" button */
     public void viewList(View view){
+        interstitialAd();
+
         Intent intent = new Intent(this, ListActivity.class);
         startActivity(intent);
     }
 
     /* Called when the user taps the "Details" button */
     public void showDetails(View view){
+        interstitialAd();
+
         Intent intent = new Intent (this, DetailsActivity.class);
         startActivity(intent);
     }
@@ -141,6 +175,8 @@ public class MainActivity extends AppCompatActivity {
     public void letsEat(View view){
         double latitude;
         double longitude;
+
+        interstitialAd();
 
         // Set up shared preferences
         sharedPreferences = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
