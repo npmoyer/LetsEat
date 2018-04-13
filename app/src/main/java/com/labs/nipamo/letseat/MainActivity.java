@@ -45,7 +45,7 @@ import static com.labs.nipamo.letseat.SettingsActivity.PREFERENCES;
 
 public class MainActivity extends AppCompatActivity {
 
-    private String url, int_id = "ca-app-pub-8326478359549506/5420381404";
+    private String url;
     private int prev, count;
     private InterstitialAd interstitial;
 
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         // Set up the interstitial ad
         count = 0;
         interstitial = new InterstitialAd(this);
-        interstitial.setAdUnitId(int_id);
+        interstitial.setAdUnitId(getString(R.string.int_id));
         interstitial.loadAd(new AdRequest.Builder().build());
     }
 
@@ -318,7 +318,6 @@ public class MainActivity extends AppCompatActivity {
                         }
                         if (place.has(PRICE)){
                             placePrice = place.getString(PRICE);
-
                         }else{
                             placePrice = "?";
                         }

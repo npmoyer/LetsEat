@@ -56,7 +56,7 @@ public class OptionsActivity extends AppCompatActivity {
         ArrayAdapter<CharSequence> adapter3 = ArrayAdapter.createFromResource(this,
                 R.array.options_rating_array, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
-        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         spinner3.setAdapter(adapter3);
 
@@ -66,9 +66,19 @@ public class OptionsActivity extends AppCompatActivity {
         ArrayAdapter<CharSequence> adapter4 = ArrayAdapter.createFromResource(this,
                 R.array.options_price_array, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
-        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         spinner4.setAdapter(adapter4);
+
+        // Set up the open now spinner
+        Spinner spinner5 = (Spinner) findViewById(R.id.openSpinner);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter5 = ArrayAdapter.createFromResource(this,
+                R.array.options_open_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter5.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        spinner5.setAdapter(adapter5);
 
         // Set uo the app bar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

@@ -1,11 +1,14 @@
 package com.labs.nipamo.letseat;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
@@ -43,6 +46,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private LatLng myPosition;
     private String url;
+    private int REQUEST_FINE_LOCATION = 1;
+    private int REQUEST_COARSE_LOCATION = 2;
+
     SharedPreferences sharedPreferences;
 
     @Override
@@ -71,7 +77,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         double longitude;
 
         // Enabling MyLocation Layer of Google Map
-        mMap.setMyLocationEnabled(true);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    REQUEST_FINE_LOCATION);
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                    REQUEST_COARSE_LOCATION);
+
+        } else {
+            mMap.setMyLocationEnabled(true);
+        }
 
         // Restore the saved data
         sharedPreferences = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
@@ -136,6 +155,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     /* Async task for getting the JSON result */
     private class JSONTaskMaps extends AsyncTask<Void, Void, String> {
+
         @Override
         protected String doInBackground(Void... params) {
             String googlePlacesUrl = MapsActivity.this.url;
@@ -182,6 +202,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         markerOptions.position(latLng);
                         markerOptions.title(placeName);
                         mMap.addMarker(markerOptions);
+
+                        // Add place name to string for list view
+                        ((FindPlacesConfig) getApplicationContext()).setPlaces(placeName, i);
                     }
 
                     Toast.makeText(getBaseContext(), jsonArray.length() + " Restaurants found!",

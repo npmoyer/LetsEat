@@ -31,11 +31,16 @@
     <string name="options_category">Category</string>
     <string-array name="options_category_array">
         <item>Any</item>
-        <item>Pizza</item>
-        <item>Mexican</item>
-        <item>Italian</item>
+        <item>American</item>
         <item>Chinese</item>
+        <item>Italian</item>
+        <item>Japanese</item>
+        <item>Mexican</item>
+        <item>Pizza</item>
         <item>Sandwich</item>
+        <item>Sushi</item>
+        <item>Vegetarian</item>
+        <item>Vegan</item>
     </string-array>
     <string name="options_rating">Rating</string>
     <string-array name="options_rating_array">
@@ -53,6 +58,12 @@
         <item>$$</item>
         <item>$$$</item>
         <item>$$$$</item>
+    </string-array>
+    <string name="options_open">Open Now</string>
+    <string-array name="options_open_array">
+        <item>Any</item>
+        <item>Yes</item>
+        <item>No</item>
     </string-array>
 
     <!-- Settings Activity Strings -->

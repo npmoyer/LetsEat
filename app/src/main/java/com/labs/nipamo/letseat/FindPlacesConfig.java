@@ -30,6 +30,8 @@ public class FindPlacesConfig extends FindPlaces{
     private int distance;
     private String category, rating, price;
 
+    private String[] places = new String[50];
+
     public void setDistance(int dist) {
         this.distance = dist;
     }
@@ -54,6 +56,10 @@ public class FindPlacesConfig extends FindPlaces{
         }
     }
 
+    public void setPlaces(String place, int index){
+        this.places[index] = place;
+    }
+
     public String getCategory(){
         return this.category;
     }
@@ -64,5 +70,9 @@ public class FindPlacesConfig extends FindPlaces{
 
     public String getPrice(){
         return this.price;
+    }
+
+    public String[] getPlaces(){
+        return this.places;
     }
 }
