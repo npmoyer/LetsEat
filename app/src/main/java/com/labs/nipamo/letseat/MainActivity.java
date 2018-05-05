@@ -30,7 +30,6 @@ import org.json.JSONObject;
 
 import java.util.Random;
 
-import static com.labs.nipamo.letseat.FindPlacesConfig.APIKEY;
 import static com.labs.nipamo.letseat.FindPlacesConfig.NAME;
 import static com.labs.nipamo.letseat.FindPlacesConfig.OK;
 import static com.labs.nipamo.letseat.FindPlacesConfig.PRICE;
@@ -57,11 +56,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Set up the app bar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         // Set up the ad banner
-        AdView adView = (AdView) findViewById(R.id.adView);
+        AdView adView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder()
                 .setRequestAgent("android_studio:ad_template").build();
         adView.loadAd(adRequest);
@@ -69,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         // Set up the interstitial ad
         count = 0;
         interstitial = new InterstitialAd(this);
-        interstitial.setAdUnitId(getString(R.string.int_id));
+        interstitial.setAdUnitId(BuildConfig.IntID);
         interstitial.loadAd(new AdRequest.Builder().build());
     }
 
@@ -248,7 +247,7 @@ public class MainActivity extends AppCompatActivity {
             googlePlacesUrl.append("&keyword=").append(category);
         }
         googlePlacesUrl.append("&sensor=true");
-        googlePlacesUrl.append("&key=" + APIKEY);
+        googlePlacesUrl.append("&key=" + BuildConfig.PlacesAPI);
 
         this.url = googlePlacesUrl.toString();
     }
@@ -324,8 +323,8 @@ public class MainActivity extends AppCompatActivity {
                         ((FindPlaces) getApplicationContext()).setAll(placeName,placeLocation,placeRating,placePrice);
 
                         // Set up the local variables
-                        TextView resultText = (TextView) findViewById(R.id.result);
-                        Button details = (Button) findViewById(R.id.details_button);
+                        TextView resultText = findViewById(R.id.result);
+                        Button details = findViewById(R.id.details_button);
 
                         // Display the result
                         if (placeName != null){

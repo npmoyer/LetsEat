@@ -13,9 +13,30 @@ android {
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
+        debug {
+            buildConfigField 'String', "PlacesAPI", LetsEat_places_api_key
+            buildConfigField 'String', "MapsAPI", LetsEat_maps_api_key
+            buildConfigField 'String', "BannerID", LetsEat_banner_test
+            buildConfigField 'String', "IntID", LetsEat_int_test
+
+            resValue 'string', "places_api", LetsEat_places_api_key
+            resValue 'string', "maps_api", LetsEat_maps_api_key
+            resValue 'string', "banner_id", LetsEat_banner_test
+            resValue 'string', "int_id", LetsEat_int_test
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            buildConfigField 'String', "PlacesAPI", LetsEat_places_api_key
+            buildConfigField 'String', "MapsAPI", LetsEat_maps_api_key
+            buildConfigField 'String', "BannerID", LetsEat_banner_id
+            buildConfigField 'String', "IntID", LetsEat_int_id
+
+            resValue 'string', "places_api", LetsEat_places_api_key
+            resValue 'string', "maps_api", LetsEat_maps_api_key
+            resValue 'string', "banner_id", LetsEat_banner_id
+            resValue 'string', "int_id", LetsEat_int_id
         }
     }
 }
@@ -31,8 +52,8 @@ dependencies {
     implementation 'com.android.support:support-v4:26.1.0'
     implementation 'com.android.support:support-vector-drawable:26.1.0'
     implementation 'com.android.support:design:26.1.0'
-    implementation 'com.google.android.gms:play-services-maps:15.0.0'
-    implementation 'com.google.android.gms:play-services-ads:15.0.0'
+    implementation 'com.google.android.gms:play-services-maps:15.0.1'
+    implementation 'com.google.android.gms:play-services-ads:15.0.1'
     implementation 'com.mcxiaoke.volley:library:1.0.19'
     testImplementation 'junit:junit:4.12'
 }

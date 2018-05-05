@@ -89,11 +89,4 @@
     <string name="menu_about">About</string>
     <string name="title_activity_about">About</string>
     <string name="menu_options">Options</string>
-
-    <!-- AdMob Strings -->
-    <string name="banner_id">ca-app-pub-8326478359549506/7901811074</string>
-    <string name="banner_test">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="int_id">ca-app-pub-8326478359549506/5420381404</string>
-    <string name="int_test">ca-app-pub-3940256099942544/1033173712</string>
-
 </resources>

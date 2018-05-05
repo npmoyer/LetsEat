@@ -2,9 +2,6 @@ package com.labs.nipamo.letseat;
 
 
 public class FindPlacesConfig extends FindPlaces{
-    // API Key
-    public static final String APIKEY = "AIzaSyAZMaNIoaHaoakcShaJ8rfB8XkvcMK9CSc";
-
     // Public static variables
     public static final String RESULTS = "results";
     public static final String STATUS = "status";

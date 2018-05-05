@@ -29,7 +29,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import static com.labs.nipamo.letseat.FindPlacesConfig.APIKEY;
 import static com.labs.nipamo.letseat.FindPlacesConfig.GEOMETRY;
 import static com.labs.nipamo.letseat.FindPlacesConfig.LATITUDE;
 import static com.labs.nipamo.letseat.FindPlacesConfig.LOCATION;
@@ -148,7 +147,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             googlePlacesUrl.append("&keyword=").append(category);
         }
         googlePlacesUrl.append("&sensor=true");
-        googlePlacesUrl.append("&key=" + APIKEY);
+        googlePlacesUrl.append("&key=" + BuildConfig.MapsAPI);
 
         this.url = googlePlacesUrl.toString();
     }
