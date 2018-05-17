@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:textAlignment="center"
-        android:text="Version: 1.1.8"
+        android:text="Version: 1.1.10"
         android:textSize="20sp"
         android:layout_marginTop="15dp"/>
     <TextView
