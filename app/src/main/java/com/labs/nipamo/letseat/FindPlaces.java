@@ -4,12 +4,12 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
-public class FindPlaces extends FindLocation {
+public abstract class FindPlaces extends FindLocation {
 
     private RequestQueue mRequestQueue;
     private static FindPlaces mInstance;
 
-    private String name, location, rating, price;
+    private String name, location, rating, price, lat, lng;
 
     @Override
     public void onCreate() {
@@ -32,11 +32,13 @@ public class FindPlaces extends FindLocation {
         getRequestQueue().add(req);
     }
 
-    public void setAll(String name, String location, String rating, String price){
+    public void setAll(String name, String location, String rating, String price, String lat, String lng){
         this.name = name;
         this.location = location;
         this.rating = rating;
         this.price = price;
+        this.lat = lat;
+        this.lng = lng;
     }
 
     public String getNameText(){
@@ -55,4 +57,11 @@ public class FindPlaces extends FindLocation {
         return this.price;
     }
 
+    public double getLatNum(){
+        return Double.parseDouble(this.lat);
+    }
+
+    public double getLngNum(){
+        return Double.parseDouble(this.lng);
+    }
 }

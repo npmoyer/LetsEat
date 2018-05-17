@@ -82,6 +82,8 @@
 
     <!-- Maps Activity Strings -->
     <string name="title_activity_maps">Map</string>
+    <string name="title_activity_detailed_map">Detailed Map</string>
+
 
     <!-- Menu Strings -->
     <string name="menu_overflow">More</string>

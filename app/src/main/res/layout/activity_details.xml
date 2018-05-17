@@ -108,7 +108,7 @@
             android:layout_gravity="center"
             android:layout_margin="15dp"
             android:layout_weight=".5"
-            android:onClick="notImplemented"
+            android:onClick="viewMap"
             android:text="@string/show_on_map_button"
             android:textAllCaps="false" />
 

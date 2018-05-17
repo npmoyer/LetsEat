@@ -30,6 +30,10 @@ import org.json.JSONObject;
 
 import java.util.Random;
 
+import static com.labs.nipamo.letseat.FindPlacesConfig.GEOMETRY;
+import static com.labs.nipamo.letseat.FindPlacesConfig.LATITUDE;
+import static com.labs.nipamo.letseat.FindPlacesConfig.LOCATION;
+import static com.labs.nipamo.letseat.FindPlacesConfig.LONGITUDE;
 import static com.labs.nipamo.letseat.FindPlacesConfig.NAME;
 import static com.labs.nipamo.letseat.FindPlacesConfig.OK;
 import static com.labs.nipamo.letseat.FindPlacesConfig.PRICE;
@@ -283,7 +287,13 @@ public class MainActivity extends AppCompatActivity {
         /* Get the place name, location, rating and price */
         private void parseLocationResult(JSONObject result) {
             // Set up local variables
-            String placeName, placeLocation, placeRating, placePrice;
+            String placeName,
+                    placeLocation = "?",
+                    placeRating = "?",
+                    placePrice = "?",
+                    placeLat = "0",
+                    placeLng = "0";
+
             Random rand = new Random();
 
             try {
@@ -305,22 +315,21 @@ public class MainActivity extends AppCompatActivity {
                     JSONObject place = jsonArray.getJSONObject(i);
                     if (!place.isNull(NAME)) {
                         placeName = place.getString(NAME);
-                        if (place.has(VICINITY)) {
+                        if (place.has(VICINITY))
                             placeLocation = place.getString(VICINITY);
-                        }else{
-                            placeLocation = "?";
-                        }
-                        if (place.has(RATING)){
+                        if (place.has(RATING))
                             placeRating = place.getString(RATING);
-                        }else{
-                            placeRating = "?";
-                        }
-                        if (place.has(PRICE)){
+                        if (place.has(PRICE))
                             placePrice = place.getString(PRICE);
-                        }else{
-                            placePrice = "?";
+                        if (place.has(GEOMETRY)) {
+                            placeLat = place.getJSONObject(GEOMETRY).getJSONObject(LOCATION)
+                                    .getString(LATITUDE);
+                            placeLng = place.getJSONObject(GEOMETRY).getJSONObject(LOCATION)
+                                    .getString(LONGITUDE);
                         }
-                        ((FindPlaces) getApplicationContext()).setAll(placeName,placeLocation,placeRating,placePrice);
+
+                        ((FindPlaces) getApplicationContext()).setAll(placeName,placeLocation,
+                                placeRating,placePrice, placeLat, placeLng);
 
                         // Set up the local variables
                         TextView resultText = findViewById(R.id.result);

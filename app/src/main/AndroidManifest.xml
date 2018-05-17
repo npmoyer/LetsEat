@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.labs.nipamo.letseat"
-    xmlns:tools="http://schemas.android.com/tools">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.labs.nipamo.letseat">
 
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
@@ -76,10 +75,19 @@
         <!-- Details Activity -->
         <activity
             android:name=".DetailsActivity"
-            android:label="@string/title_activity_details" >
+            android:label="@string/title_activity_details">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.labs.nipamo.letseat.MainActivity" />
+        </activity>
+
+        <!-- Detailed Map Activity -->
+        <activity
+            android:name=".DetailedMapActivity"
+            android:label="@string/title_activity_detailed_map">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.labs.nipamo.letseat.DetailsActivity" />
         </activity>
 
         <!-- AdMob Activity -->
@@ -92,7 +100,8 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/maps_api"
-            tools:replace="android:value"/>
+            tools:replace="android:value" />
+
     </application>
 
 </manifest>
