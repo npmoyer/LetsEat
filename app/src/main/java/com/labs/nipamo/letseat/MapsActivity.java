@@ -147,7 +147,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             googlePlacesUrl.append("&keyword=").append(category);
         }
         googlePlacesUrl.append("&sensor=true");
-        googlePlacesUrl.append("&key=" + BuildConfig.MapsAPI);
+        googlePlacesUrl.append("&key=" + BuildConfig.PlacesAPI);
 
         this.url = googlePlacesUrl.toString();
     }
