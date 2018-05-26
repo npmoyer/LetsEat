@@ -80,15 +80,22 @@
     <string name="details_rating">Rating</string>
     <string name="details_price">Price</string>
 
+    <!-- About Activity Strings -->
+    <string name="title_activity_about">About</string>
+    <string name="about_dev">NiPsMo Labs</string>
+    <string name="about_version">Version 1.1.11</string>
+    <string name="about_released">Released: 5/25/2018</string>
+    <string name="about_button">Send Feedback</string>
+    <string name="about_github_link">https://github.com/NiPaMo/LetsEat</string>
+
+
     <!-- Maps Activity Strings -->
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_detailed_map">Detailed Map</string>
-
 
     <!-- Menu Strings -->
     <string name="menu_overflow">More</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_about">About</string>
-    <string name="title_activity_about">About</string>
     <string name="menu_options">Options</string>
 </resources>

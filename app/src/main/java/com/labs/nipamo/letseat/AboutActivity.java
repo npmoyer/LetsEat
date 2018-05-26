@@ -20,7 +20,7 @@ public class AboutActivity extends AppCompatActivity {
         setContentView(R.layout.activity_about);
 
         // Set up the app bar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         // Add the back button
@@ -42,6 +42,20 @@ public class AboutActivity extends AppCompatActivity {
         Uri uri = Uri.parse("mailto:moyer.n.p@gmail.com?subject=Let's Eat App Feedback\n");
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         intent.setData(uri);
+        startActivity(intent);
+    }
+
+    public void openBrowser(View view){
+        // Get url from tag
+        String url = (String)view.getTag();
+
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.addCategory(Intent.CATEGORY_BROWSABLE);
+
+        // Pass the url to intent data
+        intent.setData(Uri.parse(url));
+
         startActivity(intent);
     }
 }
