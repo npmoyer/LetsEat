@@ -30,21 +30,21 @@ import org.json.JSONObject;
 
 import java.util.Random;
 
-import static com.labs.nipamo.letseat.FindPlacesConfig.GEOMETRY;
-import static com.labs.nipamo.letseat.FindPlacesConfig.LATITUDE;
-import static com.labs.nipamo.letseat.FindPlacesConfig.LOCATION;
-import static com.labs.nipamo.letseat.FindPlacesConfig.LONGITUDE;
-import static com.labs.nipamo.letseat.FindPlacesConfig.NAME;
-import static com.labs.nipamo.letseat.FindPlacesConfig.OK;
-import static com.labs.nipamo.letseat.FindPlacesConfig.PRICE;
-import static com.labs.nipamo.letseat.FindPlacesConfig.RATING;
-import static com.labs.nipamo.letseat.FindPlacesConfig.RESULTS;
-import static com.labs.nipamo.letseat.FindPlacesConfig.STATUS;
-import static com.labs.nipamo.letseat.FindPlacesConfig.VICINITY;
-import static com.labs.nipamo.letseat.FindPlacesConfig.ZERO_RESULTS;
-import static com.labs.nipamo.letseat.SettingsActivity.CURRENTSAVE;
-import static com.labs.nipamo.letseat.SettingsActivity.CUSTOMSAVE;
-import static com.labs.nipamo.letseat.SettingsActivity.PREFERENCES;
+import static com.labs.nipamo.letseat.Constants.PlacesAPI.GEOMETRY;
+import static com.labs.nipamo.letseat.Constants.PlacesAPI.LATITUDE;
+import static com.labs.nipamo.letseat.Constants.PlacesAPI.LOCATION;
+import static com.labs.nipamo.letseat.Constants.PlacesAPI.LONGITUDE;
+import static com.labs.nipamo.letseat.Constants.PlacesAPI.NAME;
+import static com.labs.nipamo.letseat.Constants.PlacesAPI.PRICE;
+import static com.labs.nipamo.letseat.Constants.PlacesAPI.RATING;
+import static com.labs.nipamo.letseat.Constants.PlacesAPI.VICINITY;
+import static com.labs.nipamo.letseat.Constants.Request.OK;
+import static com.labs.nipamo.letseat.Constants.Request.RESULTS;
+import static com.labs.nipamo.letseat.Constants.Request.STATUS;
+import static com.labs.nipamo.letseat.Constants.Request.ZERO_RESULTS;
+import static com.labs.nipamo.letseat.Constants.Settings.CURRENTSAVE;
+import static com.labs.nipamo.letseat.Constants.Settings.CUSTOMSAVE;
+import static com.labs.nipamo.letseat.Constants.Settings.PREFERENCES;
 
 public class MainActivity extends AppCompatActivity {
 

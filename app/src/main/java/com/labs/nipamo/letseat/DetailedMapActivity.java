@@ -16,6 +16,9 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import static com.labs.nipamo.letseat.Constants.Permissions.REQUEST_COARSE_LOCATION;
+import static com.labs.nipamo.letseat.Constants.Permissions.REQUEST_FINE_LOCATION;
+
 public class DetailedMapActivity extends FragmentActivity implements OnMapReadyCallback {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +46,6 @@ public class DetailedMapActivity extends FragmentActivity implements OnMapReadyC
         GoogleMap mMap = googleMap;
         LatLng placePosition;
         LatLng myPosition;
-        int REQUEST_FINE_LOCATION = 1;
-        int REQUEST_COARSE_LOCATION = 2;
 
         // Enabling MyLocation Layer of Google Map
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)

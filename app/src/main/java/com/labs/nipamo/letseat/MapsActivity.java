@@ -29,24 +29,22 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import static com.labs.nipamo.letseat.FindPlacesConfig.GEOMETRY;
-import static com.labs.nipamo.letseat.FindPlacesConfig.LATITUDE;
-import static com.labs.nipamo.letseat.FindPlacesConfig.LOCATION;
-import static com.labs.nipamo.letseat.FindPlacesConfig.LONGITUDE;
-import static com.labs.nipamo.letseat.FindPlacesConfig.NAME;
-import static com.labs.nipamo.letseat.FindPlacesConfig.OK;
-import static com.labs.nipamo.letseat.FindPlacesConfig.STATUS;
-import static com.labs.nipamo.letseat.FindPlacesConfig.ZERO_RESULTS;
+import static com.labs.nipamo.letseat.Constants.Permissions.REQUEST_COARSE_LOCATION;
+import static com.labs.nipamo.letseat.Constants.Permissions.REQUEST_FINE_LOCATION;
+import static com.labs.nipamo.letseat.Constants.PlacesAPI.GEOMETRY;
+import static com.labs.nipamo.letseat.Constants.PlacesAPI.LATITUDE;
+import static com.labs.nipamo.letseat.Constants.PlacesAPI.LOCATION;
+import static com.labs.nipamo.letseat.Constants.PlacesAPI.LONGITUDE;
+import static com.labs.nipamo.letseat.Constants.PlacesAPI.NAME;
+import static com.labs.nipamo.letseat.Constants.Request.*;
+import static com.labs.nipamo.letseat.Constants.Settings.PREFERENCES;
 import static com.labs.nipamo.letseat.R.id.map;
-import static com.labs.nipamo.letseat.SettingsActivity.PREFERENCES;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private LatLng myPosition;
     private String url;
-    private int REQUEST_FINE_LOCATION = 1;
-    private int REQUEST_COARSE_LOCATION = 2;
 
     SharedPreferences sharedPreferences;
 

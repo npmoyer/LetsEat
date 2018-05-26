@@ -18,12 +18,9 @@ import android.widget.Toast;
 import static com.labs.nipamo.letseat.R.id.zipcode;
 import static com.labs.nipamo.letseat.R.menu.other;
 
-public class SettingsActivity extends AppCompatActivity {
+import static com.labs.nipamo.letseat.Constants.Settings.*;
 
-    static final String CURRENTSAVE = "currentSave";
-    static final String CUSTOMSAVE = "customSave";
-    static final String ZIPCODESAVE = "zipcodeSave";
-    static final String PREFERENCES = "Prefs";
+public class SettingsActivity extends AppCompatActivity {
     public String ZIPCODE;
 
     SharedPreferences sharedPreferences;
@@ -34,7 +31,7 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
         // Set up the app bar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         // Add the back button
@@ -69,9 +66,9 @@ public class SettingsActivity extends AppCompatActivity {
     /* Called when the user presses the "Current Location" radio button */
     public void setCurrent(View view){
         // Set local variables
-        RadioButton custom = (RadioButton) findViewById(R.id.customLocation);
-        TextView zipCode = (TextView) findViewById(zipcode);
-        EditText zipCodeText = (EditText) findViewById(R.id.zipcodeText);
+        RadioButton custom = findViewById(R.id.customLocation);
+        TextView zipCode = findViewById(zipcode);
+        EditText zipCodeText = findViewById(R.id.zipcodeText);
 
         // Hide custom location stuff
         custom.setChecked(false);
@@ -103,9 +100,9 @@ public class SettingsActivity extends AppCompatActivity {
     /* Called when the user presses the "Custom Location" radio button */
     public void setCustom(View view){
         // Set local variables
-        RadioButton current = (RadioButton) findViewById(R.id.currentLocation);
-        TextView zipCode = (TextView) findViewById(zipcode);
-        EditText zipCodeText = (EditText) findViewById(R.id.zipcodeText);
+        RadioButton current = findViewById(R.id.currentLocation);
+        TextView zipCode = findViewById(zipcode);
+        EditText zipCodeText = findViewById(R.id.zipcodeText);
 
         // Hide current location stuff
         current.setChecked(false);
@@ -126,7 +123,7 @@ public class SettingsActivity extends AppCompatActivity {
     /* Called when the user pressed the "Apply" button */
     public void apply(View view){
         // Set local variables
-        EditText zipCodeText = (EditText) findViewById(R.id.zipcodeText);
+        EditText zipCodeText = findViewById(R.id.zipcodeText);
 
         // Restore the saved data
         sharedPreferences = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);

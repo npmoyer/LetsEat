@@ -18,13 +18,13 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.util.List;
 
-import static com.labs.nipamo.letseat.SettingsActivity.CURRENTSAVE;
-import static com.labs.nipamo.letseat.SettingsActivity.CUSTOMSAVE;
-import static com.labs.nipamo.letseat.SettingsActivity.PREFERENCES;
+import static com.labs.nipamo.letseat.Constants.Permissions.MY_PERMISSIONS_ACCESS_FINE_LOCATION;
+import static com.labs.nipamo.letseat.Constants.Settings.CURRENTSAVE;
+import static com.labs.nipamo.letseat.Constants.Settings.CUSTOMSAVE;
+import static com.labs.nipamo.letseat.Constants.Settings.PREFERENCES;
 
 public class FindLocation extends Application{
 
-    private int MY_PERMISSIONS_ACCESS_FINE_LOCATION = 100;
     private double latitude;
     private double longitude;
     private String zip;
@@ -32,12 +32,8 @@ public class FindLocation extends Application{
     SharedPreferences sharedPreferences;
 
     public boolean checkForPermission(Context context){
-        if (ContextCompat.checkSelfPermission(context,
-                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            return true;
-        }else{
-            return false;
-        }
+        return ContextCompat.checkSelfPermission(context,
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
     }
 
     public boolean promptForPermission(Activity activity){
