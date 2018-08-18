@@ -1,6 +1,6 @@
 package com.labs.nipamo.letseat;
 
-import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -9,10 +9,29 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
+import static com.labs.nipamo.letseat.Constants.PlacesAPI.NAME;
+import static com.labs.nipamo.letseat.Constants.Request.OK;
+import static com.labs.nipamo.letseat.Constants.Request.RESULTS;
+import static com.labs.nipamo.letseat.Constants.Request.STATUS;
+import static com.labs.nipamo.letseat.Constants.Request.ZERO_RESULTS;
 import static com.labs.nipamo.letseat.R.menu.other;
 
 public class ListActivity extends AppCompatActivity {
+
+    private String url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +39,7 @@ public class ListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list);
 
         // Set up the app bar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         // Add the back button
@@ -30,8 +49,7 @@ public class ListActivity extends AppCompatActivity {
         }
 
         // Call the function to populate the list of places
-        // populateListView();
-        // TODO: Fix list view population problem
+        populateListView();
     }
 
     @Override
@@ -41,24 +59,110 @@ public class ListActivity extends AppCompatActivity {
         return true;
     }
 
-
     private void populateListView(){
         // Get list of places
-         String[] places = ((FindPlacesConfig) getApplicationContext()).getPlaces();
-         // String[] places = {"Test1", "Test2", "Test3"};
+        // Use FindLocation to get the latitude and longitude
+        ((FindLocation) getApplicationContext()).setLocation();
+        double latitude = ((FindLocation) getApplicationContext()).getLatitude();
+        double longitude = ((FindLocation) getApplicationContext()).getLongitude();
 
-         if (places.length < 1){
-             Intent intent = new Intent (this, MapsActivity.class);
-             startActivity(intent);
-         }
+        // Create the url and execute the async task
+        loadNearbyPlaces(latitude, longitude);
+        JSONTaskList json = new JSONTaskList();
+        json.execute();
+    }
 
-        // Build the adaptor
-        ArrayAdapter<String> adaptor = new ArrayAdapter<>(this,
-                R.layout.list_text,
-                places);
+    /* Creates a url to be passed to the async task */
+    private void loadNearbyPlaces(double latitude, double longitude){
+        // Set up local variables
+        String type = "restaurant";
+        int distance;
+        String category, rating, price;
 
-        // Configure the list view
-        ListView list = (ListView) findViewById(R.id.list_view);
-        list.setAdapter(adaptor);
+        distance = ((FindPlacesConfig) getApplicationContext()).getDistance();
+        category = ((FindPlacesConfig) getApplicationContext()).getCategory();
+        rating = ((FindPlacesConfig) getApplicationContext()).getRating();
+        price = ((FindPlacesConfig) getApplicationContext()).getPrice();
+
+
+        StringBuilder googlePlacesUrl =
+                new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
+        googlePlacesUrl.append("location=").append(latitude).append(",").append(longitude);
+        googlePlacesUrl.append("&radius=").append(distance);
+        googlePlacesUrl.append("&types=").append(type);
+        if (category != null){
+            googlePlacesUrl.append("&keyword=").append(category);
+        }
+        googlePlacesUrl.append("&sensor=true");
+        googlePlacesUrl.append("&key=" + BuildConfig.PlacesAPI);
+
+        this.url = googlePlacesUrl.toString();
+    }
+
+    /* Async task for getting the JSON result */
+    private class JSONTaskList extends AsyncTask<Void, Void, String> {
+        @Override
+        protected String doInBackground(Void... params) {
+            String googlePlacesUrl = url;
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
+                    googlePlacesUrl, (String) null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject result) {
+                            parseLocationResult(result);
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(getBaseContext(), "Error: No response",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
+            FindPlaces.getInstance().addToRequestQueue(request);
+            return "Executed";
+        }
+
+        @Override
+        protected void onPostExecute(String status) {
+        }
+
+        /* Get the place name, location, rating and price */
+        private void parseLocationResult(JSONObject result) {
+            // Set up local variables
+            String placeName = "?";
+
+            try {
+                ArrayList<String> places = new ArrayList<>();
+
+                JSONArray jsonArray = result.getJSONArray(RESULTS);
+
+                if (result.getString(STATUS).equalsIgnoreCase(OK)) {
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject place = jsonArray.getJSONObject(i);
+                        if (!place.isNull(NAME)) {
+                            placeName = place.getString(NAME);
+                        }
+                        places.add(placeName);
+                    }
+
+                    // Build the adaptor
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(),
+                            R.layout.list_text,
+                            places);
+
+                    // Configure the list view
+                    ListView list = findViewById(R.id.list_view);
+                    list.setAdapter(adapter);
+
+                } else if (result.getString(STATUS).equalsIgnoreCase(ZERO_RESULTS)) {
+                    Toast.makeText(getBaseContext(), "Error: No matching restaurants found",
+                            Toast.LENGTH_LONG).show();
+                }
+            } catch (JSONException e) {
+                Toast.makeText(getBaseContext(), "Error: Cannot parse response",
+                        Toast.LENGTH_LONG).show();
+            }
+        }
     }
 }
