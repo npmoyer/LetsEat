@@ -46,8 +46,4 @@ public class FindPlacesConfig extends FindPlaces{
     public String getPrice(){
         return this.price;
     }
-
-    public String[] getPlaces(){
-        return this.places;
-    }
 }

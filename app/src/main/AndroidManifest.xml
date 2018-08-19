@@ -99,7 +99,7 @@
         <!-- Maps API -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/maps_api"
+            android:value="@string/api_key"
             tools:replace="android:value" />
 
     </application>
