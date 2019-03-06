@@ -83,8 +83,7 @@
     <!-- About Activity Strings -->
     <string name="title_activity_about">About</string>
     <string name="about_dev">NiPsMo Labs</string>
-    <string name="about_version">Version 1.1.11</string>
-    <string name="about_released">Released: 5/25/2018</string>
+    <string name="about_version">Version 1.1.13</string>
     <string name="about_button">Send Feedback</string>
     <string name="about_github_link">https://github.com/NiPaMo/LetsEat</string>
 
