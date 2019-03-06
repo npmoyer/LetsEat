@@ -23,6 +23,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -58,6 +59,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Set up Mobile Ads SDK
+        MobileAds.initialize(this, BuildConfig.AppID);
 
         // Set up the app bar
         Toolbar toolbar = findViewById(R.id.toolbar);

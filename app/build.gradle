@@ -17,10 +17,12 @@ android {
             buildConfigField 'String', "APIKey", LetsEat_api_key_dev
             buildConfigField 'String', "BannerID", LetsEat_banner_test
             buildConfigField 'String', "IntID", LetsEat_int_test
+            buildConfigField 'String', "AppID", LetsEat_app_id
 
             resValue 'string', "api_key", LetsEat_api_key_dev
             resValue 'string', "banner_id", LetsEat_banner_test
             resValue 'string', "int_id", LetsEat_int_test
+            resValue 'string', "app_id", LetsEat_app_id
         }
         release {
             minifyEnabled false
@@ -29,10 +31,12 @@ android {
             buildConfigField 'String', "APIKey", LetsEat_api_key_prod
             buildConfigField 'String', "BannerID", LetsEat_banner_id
             buildConfigField 'String', "IntID", LetsEat_int_id
+            buildConfigField 'String', "AppID", LetsEat_app_id
 
             resValue 'string', "api_key", LetsEat_api_key_prod
             resValue 'string', "banner_id", LetsEat_banner_id
             resValue 'string', "int_id", LetsEat_int_id
+            resValue 'string', "app_id", LetsEat_app_id
         }
     }
     compileOptions {
@@ -53,7 +57,7 @@ dependencies {
     implementation 'com.android.support:design:28.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     implementation 'com.google.android.gms:play-services-maps:16.1.0'
-    implementation 'com.google.android.gms:play-services-ads:16.0.0'
+    implementation 'com.google.android.gms:play-services-ads:17.1.3'
     implementation 'com.mcxiaoke.volley:library:1.0.19'
     testImplementation 'junit:junit:4.12'
 }
