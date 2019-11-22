@@ -63,6 +63,12 @@ public class MainActivity extends AppCompatActivity {
         // Set up Mobile Ads SDK
         MobileAds.initialize(this, BuildConfig.AppID);
 
+        // Set up the ad banner
+        AdView adView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder()
+                .setRequestAgent("android_studio:ad_template").build();
+        adView.loadAd(adRequest);
+
         // Set up the app bar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -119,16 +125,14 @@ public class MainActivity extends AppCompatActivity {
         // Increment the counter
         count++;
 
-        // Load a new ad every 7 clicks
-        if (count % 7 == 0){
+        // Load a new ad every 10 clicks
+        if (count % 10 == 0){
             interstitial.loadAd(new AdRequest.Builder().build());
         }
     }
 
     /* Called when the user taps the "Show Map" button */
     public void viewMap(View view){
-        interstitialAd();
-
         // Restore the saved data
         sharedPreferences = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
 
@@ -158,8 +162,6 @@ public class MainActivity extends AppCompatActivity {
 
     /* Called when the user taps the "View List" button */
     public void viewList(View view){
-        interstitialAd();
-
         Intent intent = new Intent(this, ListActivity.class);
         startActivity(intent);
     }
