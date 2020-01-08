@@ -7,8 +7,8 @@ android {
         applicationId "com.labs.nipamo.letseat"
         minSdkVersion 15
         targetSdkVersion 29
-        versionCode 16
-        versionName "1.1.13"
+        versionCode 17
+        versionName "1.2.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         signingConfig signingConfigs.debug
